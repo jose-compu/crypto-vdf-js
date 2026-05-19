@@ -17,6 +17,7 @@
       <nav>
         <a href="#what">What is a VDF?</a>
         <a href="#applications">Applications</a>
+        <a href="#demo">Live demo</a>
         <a href="#library">Library</a>
         <a href="#start">Quick start</a>
         <a href="api/">API</a>
@@ -260,7 +261,118 @@
       </div>
     </section>
 
-    <section id="library" class="alt">
+    <section id="demo" class="alt">
+      <div class="container">
+        <span class="section-label">Try it in your browser</span>
+        <h2>Live demo — real crypto-vdf code</h2>
+        <p class="section-intro">
+          This runs the same <strong>browser bundle</strong> published on npm. Watch each step:
+          a public challenge goes in, <code>solve()</code> burns time on your CPU, then <code>verify()</code> checks the proof instantly.
+        </p>
+
+        <div class="demo-layout">
+          <aside class="demo-panel demo-controls">
+            <h3>Your experiment</h3>
+            <label class="demo-field">
+              <span>Challenge (hex bytes)</span>
+              <div class="demo-input-row">
+                <input type="text" id="demo-challenge" value="aabbcc" spellcheck="false" autocomplete="off" />
+                <button type="button" class="btn btn-ghost" id="demo-random-challenge" title="Random challenge">🎲</button>
+              </div>
+              <small>Public input <em>x</em> — anyone can see it before the delay finishes.</small>
+            </label>
+
+            <label class="demo-field">
+              <span>VDF scheme</span>
+              <select id="demo-scheme">
+                <option value="wesolowski" selected>Wesolowski (recommended)</option>
+                <option value="pietrzak">Pietrzak</option>
+              </select>
+            </label>
+
+            <label class="demo-field">
+              <span>Difficulty (iterations)</span>
+              <select id="demo-difficulty">
+                <option value="66">66 — quick (~0.5s)</option>
+                <option value="100" selected>100 — typical (~1s)</option>
+                <option value="128">128 — longer (~2s)</option>
+              </select>
+              <small>256-bit discriminant only (keeps the demo snappy).</small>
+            </label>
+
+            <button type="button" class="btn btn-primary demo-run-btn" id="demo-run">▶ Run live demo</button>
+
+            <div class="demo-code-preview">
+              <span class="demo-code-label">Code being executed</span>
+              <pre class="code-block"><code id="demo-code"></code></pre>
+            </div>
+          </aside>
+
+          <div class="demo-panel demo-steps-wrap">
+            <h3>What happens step by step</h3>
+            <ol class="demo-steps">
+              <li class="demo-step pending" data-demo-step="1">
+                <span class="demo-step-num">1</span>
+                <div class="demo-step-body">
+                  <strong>Challenge</strong>
+                  <p>Parse your hex string into <code>Uint8Array</code>.</p>
+                  <span class="demo-step-detail"></span>
+                </div>
+              </li>
+              <li class="demo-step pending" data-demo-step="2">
+                <span class="demo-step-num">2</span>
+                <div class="demo-step-body">
+                  <strong>Setup</strong>
+                  <p>Pick scheme + load precomputed <code>DISCRIMINANT_256</code>.</p>
+                  <span class="demo-step-detail"></span>
+                </div>
+              </li>
+              <li class="demo-step pending demo-step-slow" data-demo-step="3">
+                <span class="demo-step-num">3</span>
+                <div class="demo-step-body">
+                  <strong>solve()</strong>
+                  <p>Sequential work — cannot be shortened with more cores.</p>
+                  <span class="demo-step-detail" id="demo-step-3-time"></span>
+                </div>
+              </li>
+              <li class="demo-step pending" data-demo-step="4">
+                <span class="demo-step-num">4</span>
+                <div class="demo-step-body">
+                  <strong>Proof π</strong>
+                  <p>Compact certificate of the computation.</p>
+                  <span class="demo-step-detail"></span>
+                </div>
+              </li>
+              <li class="demo-step pending demo-step-fast" data-demo-step="5">
+                <span class="demo-step-num">5</span>
+                <div class="demo-step-body">
+                  <strong>verify()</strong>
+                  <p>Anyone validates π without repeating the delay.</p>
+                  <span class="demo-step-detail"></span>
+                </div>
+              </li>
+              <li class="demo-step pending" data-demo-step="6">
+                <span class="demo-step-num">6</span>
+                <div class="demo-step-body">
+                  <strong>Done</strong>
+                  <p>Output is trustworthy — the delay really elapsed.</p>
+                  <span class="demo-step-detail"></span>
+                </div>
+              </li>
+            </ol>
+
+            <div id="demo-compare" class="demo-compare" hidden></div>
+
+            <div class="demo-log-wrap">
+              <span class="demo-code-label">Activity log</span>
+              <div id="demo-log" class="demo-log" role="log" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="library">
       <div class="container">
         <span class="section-label">crypto-vdf</span>
         <h2>This library</h2>
@@ -315,5 +427,8 @@ vdf.verify(challenge, 100, proof, DISCRIMINANT_256);</code></pre>
       <p>Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
     </div>
   </footer>
+
+  <script src="assets/js/vdf.min.js"></script>
+  <script src="assets/js/demo.js"></script>
 </body>
 </html>

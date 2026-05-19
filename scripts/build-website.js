@@ -30,6 +30,15 @@ fs.mkdirSync(siteOut, { recursive: true });
 console.log('  copy website/');
 copyDir(websiteSrc, siteOut);
 
+console.log('  build browser bundle → site/assets/js/vdf.min.js');
+execSync('npm run build:browser', { cwd: root, stdio: 'inherit' });
+const jsDir = path.join(siteOut, 'assets/js');
+fs.mkdirSync(jsDir, { recursive: true });
+fs.copyFileSync(
+  path.join(root, 'dist/browser/vdf.min.js'),
+  path.join(jsDir, 'vdf.min.js')
+);
+
 console.log('  typedoc → site/api/');
 execSync('npx typedoc --options typedoc.json --out site/api', {
   cwd: root,
