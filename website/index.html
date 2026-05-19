@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="crypto-vdf — Verifiable Delay Functions for Node.js and browsers. Pietrzak and Wesolowski VDFs in TypeScript." />
+  <title>crypto-vdf — Verifiable Delay Functions for JavaScript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="./">crypto<span>-vdf</span></a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#start">Quick start</a>
+        <a href="api/">API</a>
+        <a href="https://github.com/jose-blockchain/crypto-vdf-js" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-primary" href="https://www.npmjs.com/package/crypto-vdf" target="_blank" rel="noopener">npm</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Verifiable delay functions<br />for Node.js &amp; browsers</h1>
+        <p class="lead">
+          Pure TypeScript VDF library with Pietrzak and Wesolowski constructions,
+          precomputed discriminants, and zero runtime dependencies on the server.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#start">Get started</a>
+          <a class="btn btn-ghost" href="api/">API reference</a>
+        </div>
+        <div class="badges">
+          <img src="https://img.shields.io/npm/v/crypto-vdf.svg" alt="npm version" />
+          <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" />
+          <img src="https://img.shields.io/badge/Node.js-%3E%3D18-green.svg" alt="Node 18+" />
+          <img src="https://img.shields.io/badge/TypeScript-5.3-blue.svg" alt="TypeScript" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <h2>Features</h2>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Two VDF schemes</h3>
+            <p>Pietrzak and Wesolowski implementations based on the 2018 ePrint papers, with a shared verify API.</p>
+          </article>
+          <article class="card">
+            <h3>Precomputed discriminants</h3>
+            <p>256–2048 bit discriminants generated with Rust GMP — use them in production instead of slow JS generation.</p>
+          </article>
+          <article class="card">
+            <h3>Node &amp; browser</h3>
+            <p>BigInt-native TypeScript, ESM/CJS builds, and a Webpack browser bundle with full type definitions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <h2>How a VDF works</h2>
+        <p style="color: var(--muted); max-width: 720px;">
+          A Verifiable Delay Function needs sequential work to evaluate, but anyone can check the result quickly.
+          That asymmetry is useful for randomness beacons, time locks, and proof-of-time protocols.
+        </p>
+        <div class="diagram" aria-hidden="true">
+          <div class="box slow">solve<br /><small>slow (sequential)</small></div>
+          <span class="arrow">→</span>
+          <div class="box">proof</div>
+          <span class="arrow">→</span>
+          <div class="box fast">verify<br /><small>fast</small></div>
+        </div>
+        <div class="note">
+          <strong>Production tip:</strong> Prefer <strong>Wesolowski</strong> for most apps (any difficulty, smaller proofs).
+          Pietrzak requires even difficulty ≥ 66 and is limited to difficulty ≤ 7000 in this JS port.
+        </div>
+      </div>
+    </section>
+
+    <section id="start">
+      <div class="container">
+        <h2>Quick start</h2>
+        <pre class="code-block"><code>npm install crypto-vdf</code></pre>
+        <pre class="code-block"><code>import { WesolowskiVDFParams, DISCRIMINANT_256 } from 'crypto-vdf';
+
+const vdf = new WesolowskiVDFParams(256).new();
+const challenge = new Uint8Array([0xaa, 0xbb, 0xcc]);
+
+const proof = await vdf.solve(challenge, 100, DISCRIMINANT_256);
+vdf.verify(challenge, 100, proof, DISCRIMINANT_256);
+console.log('Proof verified');</code></pre>
+        <div class="links-row" style="margin-top: 1.5rem;">
+          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js#readme">Full README</a>
+          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js/tree/main/examples">Examples</a>
+          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js/blob/main/CONTRIBUTING.md">Contributing</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="container">
+        <h2>Resources</h2>
+        <div class="links-row">
+          <a class="btn btn-primary" href="api/">API documentation</a>
+          <a class="btn btn-ghost" href="https://www.npmjs.com/package/crypto-vdf">npm package</a>
+          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js">Source on GitHub</a>
+          <a class="btn btn-ghost" href="https://vdfresearch.org/" target="_blank" rel="noopener">VDF research</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Apache-2.0 · <a href="https://github.com/jose-blockchain/crypto-vdf-js">crypto-vdf-js</a></p>
+    </div>
+  </footer>
+</body>
+</html>

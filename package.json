@@ -32,6 +32,8 @@
     "test:comprehensive": "npm run build:node && node tests/manual/test-both-vdfs-comprehensive.js",
     "test:comprehensive:quick": "node tests/manual/test-both-vdfs-comprehensive.js",
     "docs": "typedoc",
+    "website:build": "node scripts/build-website.js",
+    "website:preview": "npm run website:build && npx --yes serve site -p 4000",
     "fixtures:generate": "npm run build:node && node scripts/generate-fixtures.js",
     "test:vdf": "npm run build:node && node tests/manual/test-vdf-complete.js",
     "test:vdf:quick": "node tests/manual/test-vdf-complete.js",
