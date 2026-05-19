@@ -59,7 +59,11 @@ export interface VDF {
    * @returns The proof as a Uint8Array
    * @throws {InvalidIterations} If the difficulty is invalid
    */
-  solve(challenge: Uint8Array, difficulty: number): Promise<Uint8Array>;
+  solve(
+    challenge: Uint8Array,
+    difficulty: number,
+    discriminant?: bigint
+  ): Promise<Uint8Array>;
 
   /**
    * Check that the difficulty is valid.
@@ -77,6 +81,11 @@ export interface VDF {
    * @param allegedSolution - The proof to verify
    * @throws {InvalidProof} If the proof is invalid
    */
-  verify(challenge: Uint8Array, difficulty: number, allegedSolution: Uint8Array): void;
+  verify(
+    challenge: Uint8Array,
+    difficulty: number,
+    allegedSolution: Uint8Array,
+    discriminant?: bigint
+  ): void;
 }
 

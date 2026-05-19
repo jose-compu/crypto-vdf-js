@@ -1,6 +1,7 @@
 // Manual test for VDF solve/verify (bypasses Jest issues)
-// Run with: npm run test:vdf
+// Run with: npm run test:vdf  |  npm run test:vdf:verbose
 const { PietrzakVDFParams, WesolowskiVDFParams } = require('../../dist/index.js');
+const { withHeartbeat, log, logCaseProgress } = require('./verbose');
 
 // Use precomputed discriminants from the package
 const { DISCRIMINANT_256, DISCRIMINANT_512 } = require('../../dist/index.js');
@@ -72,7 +73,10 @@ async function testPietrzak256Precomputed() {
   console.log('Generating proof...');
   const start = Date.now();
   const vdf = new PietrzakVDFParams(256).new();
-  const proof = await vdf.solve(challenge, difficulty, DISCRIMINANT_256);
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty, DISCRIMINANT_256),
+    'Pietrzak 256-bit d66 solve'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -101,7 +105,10 @@ async function testPietrzak256Generated() {
   
   const start = Date.now();
   const vdf = new PietrzakVDFParams(256).new();
-  const proof = await vdf.solve(challenge, difficulty); // No discriminant = generate it
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty),
+    'Pietrzak 256-bit d66 solve (generated discriminant)'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -109,7 +116,7 @@ async function testPietrzak256Generated() {
   console.log('Verifying proof...');
   const verifyStart = Date.now();
   try {
-    vdf.verify(challenge, difficulty, proof); // No discriminant = generate it
+    vdf.verify(challenge, difficulty, proof);
     const verifyTime = Date.now() - verifyStart;
     console.log(`✓ Verification PASSED in ${verifyTime}ms`);
     return true;
@@ -136,7 +143,10 @@ async function testPietrzak512() {
   console.log('Generating proof...');
   const start = Date.now();
   const vdf = new PietrzakVDFParams(512).new();
-  const proof = await vdf.solve(challenge, difficulty, DISCRIMINANT_512);
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty, DISCRIMINANT_512),
+    'Pietrzak 512-bit d100 solve'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -170,7 +180,10 @@ async function testWesolowski256() {
   console.log('Generating proof...');
   const start = Date.now();
   const vdf = new WesolowskiVDFParams(256).new();
-  const proof = await vdf.solve(challenge, difficulty, DISCRIMINANT_256);
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty, DISCRIMINANT_256),
+    'Wesolowski 256-bit d66 solve'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -199,7 +212,10 @@ async function testWesolowski256Generated() {
   
   const start = Date.now();
   const vdf = new WesolowskiVDFParams(256).new();
-  const proof = await vdf.solve(challenge, difficulty); // No discriminant = generate it
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty),
+    'Wesolowski 256-bit d66 solve (generated discriminant)'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -207,7 +223,7 @@ async function testWesolowski256Generated() {
   console.log('Verifying proof...');
   const verifyStart = Date.now();
   try {
-    vdf.verify(challenge, difficulty, proof); // No discriminant = generate it
+    vdf.verify(challenge, difficulty, proof);
     const verifyTime = Date.now() - verifyStart;
     console.log(`✓ Verification PASSED in ${verifyTime}ms`);
     return true;
@@ -233,7 +249,10 @@ async function testWesolowski512() {
   console.log('Generating proof...');
   const start = Date.now();
   const vdf = new WesolowskiVDFParams(512).new();
-  const proof = await vdf.solve(challenge, difficulty, DISCRIMINANT_512);
+  const proof = await withHeartbeat(
+    vdf.solve(challenge, difficulty, DISCRIMINANT_512),
+    'Wesolowski 512-bit d100 solve'
+  );
   const solveTime = Date.now() - start;
   
   displayProofStats(proof, 'Solve Stats', solveTime);
@@ -260,15 +279,22 @@ async function runAllTests() {
   console.log('╚═══════════════════════════════════════════════════════════════╝');
   
   const results = [];
-  
+  const fastTests = [
+    ['Pietrzak 256 precomputed', testPietrzak256Precomputed],
+    ['Pietrzak 512 precomputed', testPietrzak512],
+    ['Wesolowski 256 precomputed', testWesolowski256],
+    ['Wesolowski 512 precomputed', testWesolowski512],
+  ];
+
   // Fast tests with precomputed discriminants
   console.log('\n── Fast Tests (Precomputed Discriminants) ──');
   console.log('Note: Low difficulties (66-100) produce small ClassGroup values → low % utilization');
   console.log('      This is NORMAL behavior for Binary Quadratic Forms!\n');
-  results.push(await testPietrzak256Precomputed());
-  results.push(await testPietrzak512());
-  results.push(await testWesolowski256());
-  results.push(await testWesolowski512());
+  for (let i = 0; i < fastTests.length; i++) {
+    const [name, fn] = fastTests[i];
+    logCaseProgress(i + 1, fastTests.length, name);
+    results.push(await fn());
+  }
   
   // Slow tests with generated discriminants (optional - skip if RUN_SLOW_TESTS not set)
   if (process.env.RUN_SLOW_TESTS) {
