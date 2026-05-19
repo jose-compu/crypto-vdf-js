@@ -4,6 +4,9 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
+# Generated API docs
+docs/api/
+
 # Build output
 dist/
 dist-test/

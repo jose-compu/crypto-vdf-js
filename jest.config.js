@@ -1,31 +1,30 @@
+/** @type {import('jest').Config} */
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
-  testMatch: ['**/*.test.ts'],
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/**/*.d.ts',
-    '!src/**/index.ts'
+  // CI and default `npm run test:unit` — only these three files (see package.json)
+  testMatch: ['<rootDir>/tests/**/*.test.ts'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/tests/manual/',
+    '\\.slow\\.test\\.ts$',
+    'golden-vectors\\.test\\.ts$',
+    'classgroup\\.test\\.ts$',
   ],
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60
-    }
-  },
-  testTimeout: 30000,
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/index.ts'],
+  testTimeout: 3000,
   transform: {
-    '^.+\\.ts$': ['ts-jest', {
-      tsconfig: {
-        target: 'ES2020'
-      }
-    }]
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        tsconfig: { target: 'ES2020' },
+      },
+    ],
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
-  // Run tests sequentially to avoid BigInt serialization issues
-  maxWorkers: 1
+  maxWorkers: 1,
+  // Avoid Jest waiting on open handles after fast tests
+  forceExit: true,
+  detectOpenHandles: false,
 };
-

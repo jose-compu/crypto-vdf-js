@@ -1,0 +1,21 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "readme": "README.md",
+  "name": "crypto-vdf API",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "sort": ["source-order"],
+  "navigation": {
+    "includeCategories": true
+  },
+  "categoryOrder": [
+    "VDF",
+    "Discriminants",
+    "Class Group",
+    "Errors",
+    "*"
+  ]
+}

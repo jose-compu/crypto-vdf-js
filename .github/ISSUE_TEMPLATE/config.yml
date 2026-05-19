@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contributing guide
+    url: https://github.com/jose-blockchain/crypto-vdf-js/blob/main/CONTRIBUTING.md
+    about: Setup, tests, and PR guidelines
