@@ -291,13 +291,22 @@
             </label>
 
             <label class="demo-field">
+              <span>Security size (discriminant)</span>
+              <select id="demo-bits">
+                <option value="256" selected>256-bit (faster)</option>
+                <option value="512">512-bit (heavier solve)</option>
+              </select>
+            </label>
+
+            <label class="demo-field">
               <span>Difficulty (iterations)</span>
               <select id="demo-difficulty">
-                <option value="66">66 — quick (~0.5s)</option>
-                <option value="100" selected>100 — typical (~1s)</option>
-                <option value="128">128 — longer (~2s)</option>
+                <option value="2048">2,048 — moderate delay</option>
+                <option value="5000">5,000 — clear gap</option>
+                <option value="8000" selected>8,000 — recommended demo</option>
+                <option value="10000">10,000 — max delay (256-bit)</option>
               </select>
-              <small>256-bit discriminant only (keeps the demo snappy).</small>
+              <small>Higher difficulty = longer <code>solve()</code>; <code>verify()</code> stays near-instant.</small>
             </label>
 
             <button type="button" class="btn btn-primary demo-run-btn" id="demo-run">▶ Run live demo</button>
@@ -323,7 +332,7 @@
                 <span class="demo-step-num">2</span>
                 <div class="demo-step-body">
                   <strong>Setup</strong>
-                  <p>Pick scheme + load precomputed <code>DISCRIMINANT_256</code>.</p>
+                  <p>Pick scheme + load precomputed discriminant.</p>
                   <span class="demo-step-detail"></span>
                 </div>
               </li>
