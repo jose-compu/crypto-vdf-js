@@ -522,7 +522,7 @@ npm run docs
 # open docs/api/index.html
 ```
 
-Published API docs are built on each push to `main` (GitHub Pages).
+**Website & API docs:** [jose-blockchain.github.io/crypto-vdf-js](https://jose-blockchain.github.io/crypto-vdf-js/) (GitHub Pages, updated on each push to `main`). Build locally: `npm run website:preview`.
 
 ## Contributing
 

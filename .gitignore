@@ -3,8 +3,9 @@ node_modules/
 yarn.lock
 pnpm-lock.yaml
 
-# Generated API docs
+# Generated API docs and Pages build output
 docs/api/
+site/
 
 # Build output
 dist/

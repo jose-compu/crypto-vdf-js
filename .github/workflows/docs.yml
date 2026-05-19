@@ -1,9 +1,7 @@
-name: API Docs
+name: GitHub Pages
 
 on:
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -29,14 +27,13 @@ jobs:
 
       - run: npm ci
       - run: npm run build:node
-      - run: npm run docs
+      - run: npm run website:build
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/api
+          path: site
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
