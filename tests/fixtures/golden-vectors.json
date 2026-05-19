@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-19T08:18:18.569Z",
+  "vectors": [
+    {
+      "id": "wesolowski-256-d66",
+      "scheme": "wesolowski",
+      "bits": 256,
+      "difficulty": 66,
+      "discriminant": "-94244082954491557865740412536462075406760295174154720908408968004709609548271",
+      "challenge": "aabbcc",
+      "proof": "006b93ca6edbb6cd2031cfad61cb0a0d18002981f46b363517a09a175a960a7b0b7900000000000000000000000000000000010000000000000000000000000000000001",
+      "source": "crypto-vdf@1.0.6",
+      "note": "Golden regression vector; regenerate with npm run fixtures:generate"
+    },
+    {
+      "id": "wesolowski-256-d100",
+      "scheme": "wesolowski",
+      "bits": 256,
+      "difficulty": 100,
+      "discriminant": "-94244082954491557865740412536462075406760295174154720908408968004709609548271",
+      "challenge": "aabbcc",
+      "proof": "003d04016f39512f60a1f7b5a3daf0ba36fff4d11da554e2c706e158c03f4790845b00000000000000000000000000000000010000000000000000000000000000000001",
+      "source": "crypto-vdf@1.0.6",
+      "note": "Golden regression vector; regenerate with npm run fixtures:generate"
+    },
+    {
+      "id": "pietrzak-256-d66",
+      "scheme": "pietrzak",
+      "bits": 256,
+      "difficulty": 66,
+      "discriminant": "-94244082954491557865740412536462075406760295174154720908408968004709609548271",
+      "challenge": "aabbcc",
+      "proof": "006b93ca6edbb6cd2031cfad61cb0a0d18002981f46b363517a09a175a960a7b0b79",
+      "source": "crypto-vdf@1.0.6",
+      "note": "Golden regression vector; regenerate with npm run fixtures:generate"
+    },
+    {
+      "id": "pietrzak-256-d100",
+      "scheme": "pietrzak",
+      "bits": 256,
+      "difficulty": 100,
+      "discriminant": "-94244082954491557865740412536462075406760295174154720908408968004709609548271",
+      "challenge": "aabbcc",
+      "proof": "003d04016f39512f60a1f7b5a3daf0ba36fff4d11da554e2c706e158c03f4790845b",
+      "source": "crypto-vdf@1.0.6",
+      "note": "Golden regression vector; regenerate with npm run fixtures:generate"
+    }
+  ]
+}

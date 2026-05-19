@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an improvement or new capability
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What problem does this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: dropdown
+    id: roadmap
+    attributes:
+      label: Roadmap version (if known)
+      options:
+        - Unsure
+        - v1.1 — Quality / docs / DX
+        - v1.2 — Performance
+        - v1.3 — API ergonomics
+        - v2.0 — Platform / security
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: Area
+      options:
+        - label: area-docs
+        - label: area-testing
+        - label: area-performance
+        - label: area-api
+        - label: area-browser
+        - label: area-security

@@ -1,5 +1,9 @@
 # VDF-JS Release Notes
 
+> **Note:** Release history is maintained in [CHANGELOG.md](CHANGELOG.md). This file is kept for historical reference; new entries should go in the changelog. Version bumps are automated via release-please (see `.github/workflows/release-please.yml`).
+
+---
+
 ## Version 1.0.6 - Enhanced CI Testing (2025-01-XX)
 
 ### Changes

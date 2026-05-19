@@ -293,11 +293,11 @@ Both `PietrzakVDF` and `WesolowskiVDF` implement the same interface:
 
 ```typescript
 interface VDF {
-  // Solve VDF and generate proof
+  // Solve VDF and generate proof (use precomputed discriminant in production)
   solve(
     challenge: Uint8Array,
     difficulty: number,
-    discriminant: bigint
+    discriminant?: bigint
   ): Promise<Uint8Array>;
   
   // Verify a proof
@@ -305,7 +305,7 @@ interface VDF {
     challenge: Uint8Array,
     difficulty: number,
     proof: Uint8Array,
-    discriminant: bigint
+    discriminant?: bigint
   ): void; // Throws InvalidProof if verification fails
   
   // Check if difficulty is valid for this VDF type
@@ -351,14 +351,14 @@ vdf.verify(challenge, 200, proof, DISCRIMINANT_512);
 ### Basic Usage
 
 ```typescript
-import { PietrzakVDFParams } from 'crypto-vdf';
+import { PietrzakVDFParams, DISCRIMINANT_2048 } from 'crypto-vdf';
 
 const vdf = new PietrzakVDFParams(2048).new();
 const challenge = new Uint8Array([0xaa]);
-const proof = await vdf.solve(challenge, 100);
+const proof = await vdf.solve(challenge, 100, DISCRIMINANT_2048);
 
 // Proof is deterministic for same inputs
-const proof2 = await vdf.solve(challenge, 100);
+const proof2 = await vdf.solve(challenge, 100, DISCRIMINANT_2048);
 console.assert(Buffer.compare(proof, proof2) === 0);
 ```
 
@@ -368,10 +368,12 @@ console.assert(Buffer.compare(proof, proof2) === 0);
 import { 
   PietrzakVDFParams, 
   InvalidProof, 
-  InvalidIterations 
+  InvalidIterations,
+  DISCRIMINANT_2048
 } from 'crypto-vdf';
 
 const vdf = new PietrzakVDFParams(2048).new();
+const challenge = new Uint8Array([0xaa]);
 
 try {
   // This will throw InvalidIterations
@@ -385,7 +387,7 @@ try {
 try {
   // This will throw InvalidProof
   const badProof = new Uint8Array(256);
-  vdf.verify(challenge, 100, badProof);
+  vdf.verify(challenge, 100, badProof, DISCRIMINANT_2048);
 } catch (error) {
   if (error instanceof InvalidProof) {
     console.error('Proof verification failed');
@@ -396,18 +398,18 @@ try {
 ### Comparing VDF Types
 
 ```typescript
-import { PietrzakVDFParams, WesolowskiVDFParams } from 'crypto-vdf';
+import { PietrzakVDFParams, WesolowskiVDFParams, DISCRIMINANT_2048 } from 'crypto-vdf';
 
 const challenge = new Uint8Array([0xaa]);
 const difficulty = 100;
 
 // Pietrzak VDF
 const pietrzak = new PietrzakVDFParams(2048).new();
-const pietrzakProof = await pietrzak.solve(challenge, difficulty);
+const pietrzakProof = await pietrzak.solve(challenge, difficulty, DISCRIMINANT_2048);
 
 // Wesolowski VDF  
 const wesolowski = new WesolowskiVDFParams(2048).new();
-const wesolowskiProof = await wesolowski.solve(challenge, difficulty);
+const wesolowskiProof = await wesolowski.solve(challenge, difficulty, DISCRIMINANT_2048);
 
 console.log('Pietrzak proof size:', pietrzakProof.length);
 console.log('Wesolowski proof size:', wesolowskiProof.length);
@@ -511,13 +513,25 @@ This JavaScript port maintains API compatibility with the Rust version while ada
 
 **✅ Recommendation**: For production applications or any use case requiring difficulties above 7000, **use Wesolowski VDF instead**. Wesolowski VDF has no difficulty limitations, produces smaller proofs, and has faster verification times. It is the recommended choice for most applications.
 
+## API documentation
+
+Generate the TypeDoc reference locally:
+
+```bash
+npm run docs
+# open docs/api/index.html
+```
+
+Published API docs are built on each push to `main` (GitHub Pages).
+
 ## Contributing
 
-Contributions are welcome! Please ensure:
+See [CONTRIBUTING.md](CONTRIBUTING.md). In short:
+
 - All tests pass (`npm test`)
 - Code follows the style guide (`npm run lint`)
 - New features include tests
-- Documentation is updated
+- Documentation and `CHANGELOG.md` updated when behavior changes
 
 ## Author
 
