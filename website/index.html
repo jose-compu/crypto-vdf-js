@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="crypto-vdf — Verifiable Delay Functions for Node.js and browsers. Pietrzak and Wesolowski VDFs in TypeScript." />
+  <meta name="description" content="crypto-vdf — Verifiable Delay Functions for JavaScript. Learn what VDFs are, see diagrams, and use Pietrzak & Wesolowski in Node.js and browsers." />
   <title>crypto-vdf — Verifiable Delay Functions for JavaScript</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
@@ -15,80 +15,282 @@
     <div class="container">
       <a class="logo" href="./">crypto<span>-vdf</span></a>
       <nav>
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
+        <a href="#what">What is a VDF?</a>
+        <a href="#applications">Applications</a>
+        <a href="#library">Library</a>
         <a href="#start">Quick start</a>
         <a href="api/">API</a>
-        <a href="https://github.com/jose-blockchain/crypto-vdf-js" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn btn-primary" href="https://www.npmjs.com/package/crypto-vdf" target="_blank" rel="noopener">npm</a>
+        <a href="https://github.com/jose-compu/crypto-vdf-js" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-primary" href="https://www.npmjs.com/package/crypto-vdf" target="_blank" rel="noopener">npm install</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="container">
-        <h1>Verifiable delay functions<br />for Node.js &amp; browsers</h1>
-        <p class="lead">
-          Pure TypeScript VDF library with Pietrzak and Wesolowski constructions,
-          precomputed discriminants, and zero runtime dependencies on the server.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#start">Get started</a>
-          <a class="btn btn-ghost" href="api/">API reference</a>
+      <div class="container hero-grid">
+        <div>
+          <span class="section-label">Proof-of-time cryptography</span>
+          <h1>Time you can prove.<br />Verification anyone can run.</h1>
+          <p class="lead">
+            A <strong>Verifiable Delay Function</strong> forces sequential computation to produce an output—then proves it in milliseconds. Built for Node.js and browsers in TypeScript.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#start">Get started</a>
+            <a class="btn btn-ghost" href="api/">API reference</a>
+          </div>
+          <div class="badges">
+            <img src="https://img.shields.io/npm/v/crypto-vdf.svg" alt="npm version" />
+            <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" />
+            <img src="https://img.shields.io/badge/Node.js-%3E%3D18-green.svg" alt="Node 18+" />
+          </div>
         </div>
-        <div class="badges">
-          <img src="https://img.shields.io/npm/v/crypto-vdf.svg" alt="npm version" />
-          <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License" />
-          <img src="https://img.shields.io/badge/Node.js-%3E%3D18-green.svg" alt="Node 18+" />
-          <img src="https://img.shields.io/badge/TypeScript-5.3-blue.svg" alt="TypeScript" />
+        <div class="hero-visual" role="img" aria-label="Diagram: challenge flows through slow solve to proof, then fast verify to accepted output">
+          <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gSlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fb923c"/>
+                <stop offset="100%" stop-color="#ea580c"/>
+              </linearGradient>
+              <linearGradient id="gFast" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#34d399"/>
+                <stop offset="100%" stop-color="#059669"/>
+              </linearGradient>
+              <linearGradient id="gProof" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#818cf8"/>
+                <stop offset="100%" stop-color="#6366f1"/>
+              </linearGradient>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12"/>
+              </filter>
+            </defs>
+            <text x="240" y="28" text-anchor="middle" fill="#5b6b82" font-size="13" font-family="DM Sans, sans-serif" font-weight="600">VDF evaluation pipeline</text>
+            <!-- Challenge -->
+            <rect x="24" y="100" width="88" height="72" rx="12" fill="#fff" stroke="#dbe4f0" stroke-width="2" filter="url(#shadow)"/>
+            <text x="68" y="132" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="600" font-family="DM Sans, sans-serif">Challenge</text>
+            <text x="68" y="152" text-anchor="middle" fill="#5b6b82" font-size="10" font-family="JetBrains Mono, monospace">x</text>
+            <!-- Arrow to solve -->
+            <path d="M112 136 L148 136" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+            <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+            <!-- Solve (slow) -->
+            <rect x="152" y="72" width="120" height="128" rx="14" fill="url(#gSlow)" filter="url(#shadow)"/>
+            <text x="212" y="108" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">solve()</text>
+            <text x="212" y="128" text-anchor="middle" fill="#ffedd5" font-size="10" font-family="DM Sans, sans-serif">sequential work</text>
+            <text x="212" y="168" text-anchor="middle" fill="#fff" font-size="22" font-weight="700" font-family="DM Sans, sans-serif">⏱</text>
+            <text x="212" y="188" text-anchor="middle" fill="#ffedd5" font-size="9" font-family="DM Sans, sans-serif">cannot parallelize</text>
+            <!-- Proof -->
+            <rect x="292" y="100" width="72" height="72" rx="12" fill="url(#gProof)" filter="url(#shadow)"/>
+            <text x="328" y="132" text-anchor="middle" fill="#fff" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">Proof</text>
+            <text x="328" y="152" text-anchor="middle" fill="#e0e7ff" font-size="9" font-family="DM Sans, sans-serif">π</text>
+            <!-- Verify -->
+            <path d="M364 136 L400 136" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+            <rect x="404" y="100" width="88" height="72" rx="12" fill="url(#gFast)" filter="url(#shadow)"/>
+            <text x="448" y="128" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="DM Sans, sans-serif">verify()</text>
+            <text x="448" y="148" text-anchor="middle" fill="#d1fae5" font-size="9" font-family="DM Sans, sans-serif">fast ✓</text>
+            <!-- Timeline bar -->
+            <rect x="152" y="228" width="200" height="8" rx="4" fill="#e2e8f0"/>
+            <rect x="152" y="228" width="165" height="8" rx="4" fill="#ea580c" opacity="0.85"/>
+            <rect x="317" y="228" width="35" height="8" rx="4" fill="#059669"/>
+            <text x="152" y="252" fill="#5b6b82" font-size="10" font-family="DM Sans, sans-serif">solve time</text>
+            <text x="400" y="252" text-anchor="end" fill="#5b6b82" font-size="10" font-family="DM Sans, sans-serif">verify time</text>
+          </svg>
         </div>
       </div>
     </section>
 
-    <section id="features">
+    <section id="what" class="alt">
       <div class="container">
-        <h2>Features</h2>
+        <span class="section-label">Concept</span>
+        <h2>What is a Verifiable Delay Function?</h2>
+        <p class="section-intro">
+          A VDF is a function <em>y = f(x)</em> that takes a chosen wall-clock time to compute (even with many CPUs),
+          but where anyone can check <em>y</em> from a compact proof in a fraction of a second.
+          That gap between <strong>slow evaluation</strong> and <strong>fast verification</strong> is the whole point.
+        </p>
+
+        <div class="concept-grid">
+          <article class="concept-card slow">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Sequential delay</h3>
+            <p>Each step depends on the last. Throwing more cores at it does not shorten the delay.</p>
+          </article>
+          <article class="concept-card proof">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>
+            </div>
+            <h3>Compact proof</h3>
+            <p>The prover outputs a proof π that encodes the delayed computation without redoing all the work.</p>
+          </article>
+          <article class="concept-card fast">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            </div>
+            <h3>Public verify</h3>
+            <p>Validators, smart contracts, or clients confirm correctness quickly—no trust in the prover’s hardware.</p>
+          </article>
+        </div>
+
+        <div class="diagram-row" style="margin-top: 2rem;">
+          <div class="diagram-panel">
+            <h3>Why “verifiable delay”?</h3>
+            <p class="caption">Evaluation time is a tunable parameter (difficulty). Verification stays cheap.</p>
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+              <text x="200" y="22" text-anchor="middle" fill="#5b6b82" font-size="12" font-family="DM Sans, sans-serif">Relative cost (log scale, illustrative)</text>
+              <rect x="60" y="140" width="80" height="40" rx="6" fill="#ea580c"/>
+              <text x="100" y="165" text-anchor="middle" fill="#fff" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">solve</text>
+              <text x="100" y="188" text-anchor="middle" fill="#5b6b82" font-size="10" font-family="DM Sans, sans-serif">seconds–minutes</text>
+              <rect x="260" y="175" width="80" height="5" rx="2" fill="#059669"/>
+              <text x="300" y="168" text-anchor="middle" fill="#059669" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">verify</text>
+              <text x="300" y="188" text-anchor="middle" fill="#5b6b82" font-size="10" font-family="DM Sans, sans-serif">milliseconds</text>
+              <line x1="40" y1="40" x2="40" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="40" y1="180" x2="360" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+              <text x="28" y="110" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="DM Sans, sans-serif" transform="rotate(-90 28 110)">cost</text>
+            </svg>
+            <div class="compare-legend">
+              <span><span class="legend-dot slow"></span>Solve — intentional bottleneck</span>
+              <span><span class="legend-dot fast"></span>Verify — efficient check</span>
+            </div>
+          </div>
+          <div class="diagram-panel">
+            <h3>Parallel machines still wait</h3>
+            <p class="caption">Ideal for fairness: no one can “buy” a shorter delay with more GPUs alone.</p>
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+              <text x="200" y="22" text-anchor="middle" fill="#5b6b82" font-size="12" font-family="DM Sans, sans-serif">1 CPU vs many CPUs (same VDF chain)</text>
+              <!-- Single chain -->
+              <text x="100" y="48" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="600" font-family="DM Sans, sans-serif">1 core</text>
+              <rect x="40" y="58" width="24" height="24" rx="4" fill="#0ea5e9"/><rect x="68" y="58" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.85"/><rect x="96" y="58" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.7"/><rect x="124" y="58" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.55"/><rect x="152" y="58" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.4"/>
+              <path d="M52 82 L52 100 L164 100 L164 82" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="4 3"/>
+              <text x="108" y="118" text-anchor="middle" fill="#ea580c" font-size="10" font-family="DM Sans, sans-serif">T delay</text>
+              <!-- Many cores same chain -->
+              <text x="300" y="48" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="600" font-family="DM Sans, sans-serif">N cores</text>
+              <rect x="220" y="70" width="160" height="40" rx="8" fill="#f1f5f9" stroke="#dbe4f0"/>
+              <text x="300" y="95" text-anchor="middle" fill="#5b6b82" font-size="10" font-family="DM Sans, sans-serif">still one sequential chain → same T</text>
+              <rect x="240" y="130" width="24" height="24" rx="4" fill="#94a3b8"/><rect x="268" y="130" width="24" height="24" rx="4" fill="#94a3b8"/><rect x="296" y="130" width="24" height="24" rx="4" fill="#94a3b8"/><rect x="324" y="130" width="24" height="24" rx="4" fill="#94a3b8"/>
+              <text x="300" y="175" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="DM Sans, sans-serif">✓ same minimum delay</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="applications">
+      <div class="container">
+        <span class="section-label">Use cases</span>
+        <h2>Where VDFs are used</h2>
+        <p class="section-intro">
+          Protocols need time to pass—or randomness no one could have predicted early.
+          VDFs anchor that logic in cryptography instead of trusted timers.
+        </p>
+
+        <div class="diagram-panel" style="margin-bottom: 2rem;">
+          <h3>Randomness beacon (simplified)</h3>
+          <p class="caption">Everyone agrees on output only after the delay elapses—late entrants cannot bias earlier rounds.</p>
+          <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="50" width="100" height="60" rx="10" fill="#e0f2fe" stroke="#0ea5e9"/>
+            <text x="70" y="78" text-anchor="middle" fill="#0369a1" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">Round input</text>
+            <text x="70" y="96" text-anchor="middle" fill="#5b6b82" font-size="9" font-family="DM Sans, sans-serif">block hash + seed</text>
+            <path d="M120 80 H160" stroke="#94a3b8" stroke-width="2" marker-end="url(#a2)"/>
+            <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+            <rect x="164" y="40" width="120" height="80" rx="10" fill="#fff7ed" stroke="#ea580c"/>
+            <text x="224" y="72" text-anchor="middle" fill="#c2410c" font-size="11" font-weight="700" font-family="DM Sans, sans-serif">VDF delay</text>
+            <text x="224" y="92" text-anchor="middle" fill="#5b6b82" font-size="9" font-family="DM Sans, sans-serif">public solve race</text>
+            <path d="M284 80 H324" stroke="#94a3b8" stroke-width="2" marker-end="url(#a2)"/>
+            <rect x="328" y="50" width="100" height="60" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+            <text x="378" y="78" text-anchor="middle" fill="#4338ca" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">Proof π</text>
+            <path d="M428 80 H468" stroke="#94a3b8" stroke-width="2" marker-end="url(#a2)"/>
+            <rect x="472" y="50" width="100" height="60" rx="10" fill="#ecfdf5" stroke="#059669"/>
+            <text x="522" y="78" text-anchor="middle" fill="#047857" font-size="11" font-weight="600" font-family="DM Sans, sans-serif">Fast verify</text>
+            <path d="M572 80 H612" stroke="#94a3b8" stroke-width="2" marker-end="url(#a2)"/>
+            <rect x="616" y="50" width="88" height="60" rx="10" fill="#0ea5e9"/>
+            <text x="660" y="85" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="DM Sans, sans-serif">Random</text>
+            <text x="660" y="100" text-anchor="middle" fill="#e0f2fe" font-size="9" font-family="DM Sans, sans-serif">output</text>
+          </svg>
+        </div>
+
+        <div class="app-grid">
+          <article class="app-card">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" fill="#e0f2fe"/>
+              <path d="M24 12v12l8 4" stroke="#0369a1" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="24" r="10" stroke="#0ea5e9" stroke-width="2"/>
+            </svg>
+            <div>
+              <h3>Randomness beacons</h3>
+              <p>Unbiasable public randomness for lotteries, leader election, and consensus protocols after a public delay.</p>
+            </div>
+          </article>
+          <article class="app-card">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <rect x="6" y="10" width="36" height="28" rx="4" fill="#eef2ff"/>
+              <path d="M14 22h20M14 28h14" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+              <rect x="30" y="6" width="12" height="12" rx="6" fill="#059669"/>
+              <path d="M34 10l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <h3>Blockchain &amp; consensus</h3>
+              <p>Proof-of-time and delay in leader selection—reducing advantage from hashrate alone in some designs.</p>
+            </div>
+          </article>
+          <article class="app-card">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <rect x="8" y="14" width="32" height="24" rx="4" fill="#fff7ed" stroke="#ea580c"/>
+              <path d="M16 26h16M16 32h10" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 8v8" stroke="#0f172a" stroke-width="2"/>
+              <circle cx="24" cy="8" r="3" fill="#ea580c"/>
+            </svg>
+            <div>
+              <h3>Time-lock puzzles</h3>
+              <p>Encrypt or commit to data that only becomes usable after a verifiable wait—useful for escrows and timed release.</p>
+            </div>
+          </article>
+          <article class="app-card">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M8 36 L24 8 L40 36 Z" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+              <path d="M18 30h12" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="22" r="3" fill="#059669"/>
+            </svg>
+            <div>
+              <h3>Anti front-running</h3>
+              <p>Order or reveal transactions only after a delay so participants cannot rush ahead of a committed schedule.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="library" class="alt">
+      <div class="container">
+        <span class="section-label">crypto-vdf</span>
+        <h2>This library</h2>
+        <p class="section-intro">
+          TypeScript implementations of <strong>Pietrzak</strong> and <strong>Wesolowski</strong> VDFs with precomputed discriminants (256–2048 bit),
+          Node.js ESM/CJS, and a browser bundle.
+        </p>
         <div class="grid-3">
           <article class="card">
-            <h3>Two VDF schemes</h3>
-            <p>Pietrzak and Wesolowski implementations based on the 2018 ePrint papers, with a shared verify API.</p>
+            <h3>Wesolowski (recommended)</h3>
+            <p>Any positive difficulty, smaller proofs, fast verify. Default choice for production.</p>
           </article>
           <article class="card">
-            <h3>Precomputed discriminants</h3>
-            <p>256–2048 bit discriminants generated with Rust GMP — use them in production instead of slow JS generation.</p>
+            <h3>Pietrzak</h3>
+            <p>Even difficulty ≥ 66, max 7000 in this JS port. Compact proofs at lower difficulties.</p>
           </article>
           <article class="card">
-            <h3>Node &amp; browser</h3>
-            <p>BigInt-native TypeScript, ESM/CJS builds, and a Webpack browser bundle with full type definitions.</p>
+            <h3>Precomputed D</h3>
+            <p>Discriminants from Rust GMP—do not generate in pure JS for production workloads.</p>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="how">
-      <div class="container">
-        <h2>How a VDF works</h2>
-        <p style="color: var(--muted); max-width: 720px;">
-          A Verifiable Delay Function needs sequential work to evaluate, but anyone can check the result quickly.
-          That asymmetry is useful for randomness beacons, time locks, and proof-of-time protocols.
-        </p>
-        <div class="diagram" aria-hidden="true">
-          <div class="box slow">solve<br /><small>slow (sequential)</small></div>
-          <span class="arrow">→</span>
-          <div class="box">proof</div>
-          <span class="arrow">→</span>
-          <div class="box fast">verify<br /><small>fast</small></div>
         </div>
         <div class="note">
-          <strong>Production tip:</strong> Prefer <strong>Wesolowski</strong> for most apps (any difficulty, smaller proofs).
-          Pietrzak requires even difficulty ≥ 66 and is limited to difficulty ≤ 7000 in this JS port.
+          <strong>Production:</strong> Use <code>DISCRIMINANT_*</code> constants and Wesolowski unless you have a specific reason for Pietrzak.
         </div>
       </div>
     </section>
 
     <section id="start">
       <div class="container">
+        <span class="section-label">Developers</span>
         <h2>Quick start</h2>
         <pre class="code-block"><code>npm install crypto-vdf</code></pre>
         <pre class="code-block"><code>import { WesolowskiVDFParams, DISCRIMINANT_256 } from 'crypto-vdf';
@@ -97,23 +299,11 @@ const vdf = new WesolowskiVDFParams(256).new();
 const challenge = new Uint8Array([0xaa, 0xbb, 0xcc]);
 
 const proof = await vdf.solve(challenge, 100, DISCRIMINANT_256);
-vdf.verify(challenge, 100, proof, DISCRIMINANT_256);
-console.log('Proof verified');</code></pre>
-        <div class="links-row" style="margin-top: 1.5rem;">
-          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js#readme">Full README</a>
-          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js/tree/main/examples">Examples</a>
-          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js/blob/main/CONTRIBUTING.md">Contributing</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="links">
-      <div class="container">
-        <h2>Resources</h2>
+vdf.verify(challenge, 100, proof, DISCRIMINANT_256);</code></pre>
         <div class="links-row">
           <a class="btn btn-primary" href="api/">API documentation</a>
-          <a class="btn btn-ghost" href="https://www.npmjs.com/package/crypto-vdf">npm package</a>
-          <a class="btn btn-ghost" href="https://github.com/jose-blockchain/crypto-vdf-js">Source on GitHub</a>
+          <a class="btn btn-ghost" href="https://github.com/jose-compu/crypto-vdf-js">GitHub</a>
+          <a class="btn btn-ghost" href="https://www.npmjs.com/package/crypto-vdf">npm</a>
           <a class="btn btn-ghost" href="https://vdfresearch.org/" target="_blank" rel="noopener">VDF research</a>
         </div>
       </div>
@@ -122,7 +312,7 @@ console.log('Proof verified');</code></pre>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Apache-2.0 · <a href="https://github.com/jose-blockchain/crypto-vdf-js">crypto-vdf-js</a></p>
+      <p>Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
     </div>
   </footer>
 </body>
