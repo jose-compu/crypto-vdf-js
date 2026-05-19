@@ -7,12 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-19
+
 ### Added
 
-- `CONTRIBUTING.md`, GitHub issue/PR templates, and golden test vectors for regression testing
+- `CONTRIBUTING.md`, GitHub issue/PR templates, and golden regression fixtures
 - TypeDoc API reference (`npm run docs`) and GitHub Pages workflow
 - release-please automation for version bumps and changelog updates
-- CI coverage for 2048-bit precomputed discriminants (smoke tests)
+- Fast CI: minimal Jest suite, VDF verify smoke test, `package-lock.json` for reproducible installs
+- Verbose manual comprehensive VDF test suite with progress heartbeats
+
+### Changed
+
+- README examples and `VDF` types document optional precomputed discriminants
+- ClassGroup/golden solve tests moved out of default Jest (use `npm run test:slow` / manual scripts)
 
 ## [1.0.6] - 2025-01-XX
 
@@ -44,7 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release: Pietrzak and Wesolowski VDF, precomputed discriminants (256–2048 bit), browser bundle, TypeScript types
 
-[Unreleased]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.0.6...v1.1.0
 [1.0.6]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/jose-blockchain/crypto-vdf-js/compare/v1.0.3...v1.0.4
