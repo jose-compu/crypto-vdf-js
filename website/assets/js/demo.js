@@ -2,10 +2,38 @@
  * Interactive VDF demo — uses crypto-vdf browser bundle (global `vdf`).
  */
 (function () {
-  const BIT_SIZE = 256;
   const DISCS = {
     256: () => vdf.DISCRIMINANT_256,
     512: () => vdf.DISCRIMINANT_512,
+  };
+
+  /** Difficulty presets: long solve(), short verify() on typical hardware */
+  const DIFFICULTY_PRESETS = {
+    wesolowski: {
+      256: [
+        { v: 2048, label: '2,048 — moderate (~0.3–1s solve)' },
+        { v: 5000, label: '5,000 — clear gap (~1–3s solve)' },
+        { v: 8000, label: '8,000 — recommended demo (~2–5s solve)' },
+        { v: 10000, label: '10,000 — max delay (~3–8s solve)' },
+      ],
+      512: [
+        { v: 2048, label: '2,048 — moderate' },
+        { v: 4096, label: '4,096 — recommended (~3–10s solve)' },
+        { v: 6000, label: '6,000 — heavy (~5–15s solve)' },
+      ],
+    },
+    pietrzak: {
+      256: [
+        { v: 2048, label: '2,048 — moderate (even)' },
+        { v: 5000, label: '5,000 — clear gap (even)' },
+        { v: 7000, label: '7,000 — max for Pietrzak in JS' },
+      ],
+      512: [
+        { v: 2048, label: '2,048 — moderate (even)' },
+        { v: 4096, label: '4,096 — recommended (even)' },
+        { v: 6000, label: '6,000 — heavy (even)' },
+      ],
+    },
   };
 
   const $ = (id) => document.getElementById(id);
@@ -14,8 +42,30 @@
   const randomBtn = $('demo-random-challenge');
   const challengeInput = $('demo-challenge');
   const schemeSelect = $('demo-scheme');
+  const bitsSelect = $('demo-bits');
   const difficultySelect = $('demo-difficulty');
   const compareEl = $('demo-compare');
+
+  function getBitSize() {
+    return Number(bitsSelect.value);
+  }
+
+  function refreshDifficultyOptions(preferred) {
+    const scheme = schemeSelect.value;
+    const bits = getBitSize();
+    const list = DIFFICULTY_PRESETS[scheme][bits];
+    const prev = preferred ?? Number(difficultySelect.value);
+    difficultySelect.innerHTML = '';
+    list.forEach(({ v, label }) => {
+      const opt = document.createElement('option');
+      opt.value = String(v);
+      opt.textContent = label;
+      difficultySelect.appendChild(opt);
+    });
+    const values = list.map((o) => o.v);
+    const pick = values.includes(prev) ? prev : values[Math.min(2, values.length - 1)];
+    difficultySelect.value = String(pick);
+  }
 
   const stepEls = [1, 2, 3, 4, 5, 6].map((n) => document.querySelector(`[data-demo-step="${n}"]`));
 
@@ -83,12 +133,14 @@
 
   function updateCodePreview() {
     const scheme = schemeSelect.value;
+    const bits = getBitSize();
     const diff = difficultySelect.value;
+    const disc = bits === 512 ? 'DISCRIMINANT_512' : 'DISCRIMINANT_256';
     const cls = scheme === 'wesolowski' ? 'WesolowskiVDFParams' : 'PietrzakVDFParams';
-    $('demo-code').textContent = `const vdf = new vdf.${cls}(${BIT_SIZE}).new();
+    $('demo-code').textContent = `const vdf = new vdf.${cls}(${bits}).new();
 const challenge = new Uint8Array([/* your bytes */]);
-const proof = await vdf.solve(challenge, ${diff}, vdf.DISCRIMINANT_256);
-vdf.verify(challenge, ${diff}, proof, vdf.DISCRIMINANT_256);`;
+const proof = await vdf.solve(challenge, ${diff}, vdf.${disc});
+vdf.verify(challenge, ${diff}, proof, vdf.${disc});`;
   }
 
   function startElapsedTimer(labelEl) {
@@ -121,20 +173,22 @@ vdf.verify(challenge, ${diff}, proof, vdf.DISCRIMINANT_256);`;
 
       setStep(2, 'active');
       const scheme = schemeSelect.value;
+      const bits = getBitSize();
       const difficulty = Number(difficultySelect.value);
-      log(`Step 2 — Configure ${scheme} VDF, ${BIT_SIZE}-bit discriminant, difficulty ${difficulty}.`);
+      const discName = bits === 512 ? 'DISCRIMINANT_512' : 'DISCRIMINANT_256';
+      log(`Step 2 — Configure ${scheme} VDF, ${bits}-bit discriminant, difficulty ${difficulty}.`);
 
       const Params =
         scheme === 'wesolowski' ? vdf.WesolowskiVDFParams : vdf.PietrzakVDFParams;
-      const instance = new Params(BIT_SIZE).new();
+      const instance = new Params(bits).new();
       instance.checkDifficulty(difficulty);
-      const discriminant = DISCS[BIT_SIZE]();
+      const discriminant = DISCS[bits]();
 
       if (scheme === 'pietrzak' && difficulty % 2 !== 0) {
         throw new Error('Pietrzak requires an even difficulty.');
       }
 
-      setStep(2, 'done', `${scheme} · D = DISCRIMINANT_256`);
+      setStep(2, 'done', `${scheme} · ${discName}`);
 
       setStep(3, 'active', 'running…');
       log('Step 3 — solve(): sequential squaring (this is the intentional delay).');
@@ -166,8 +220,17 @@ vdf.verify(challenge, ${diff}, proof, vdf.DISCRIMINANT_256);`;
       log(`verify() finished in ${verifyMs} ms.`);
 
       const ratio = verifyMs > 0 ? (solveMs / verifyMs).toFixed(0) : '∞';
-      setStep(6, 'done', 'Proof valid ✓');
-      log(`Step 6 — Success. Verify was ~${ratio}× faster than solve.`, 'success');
+      setStep(6, 'done', `Valid ✓ · verify ~${ratio}× faster`);
+      log(
+        `Step 6 — Success. solve took ${solveMs} ms vs verify ${verifyMs} ms (~${ratio}× faster verification).`,
+        'success'
+      );
+      if (solveMs < verifyMs * 3) {
+        log(
+          'Tip: pick a higher difficulty or 512-bit size to widen the solve vs verify gap on this device.',
+          'info'
+        );
+      }
 
       compareEl.hidden = false;
       const bar = document.createElement('div');
@@ -204,10 +267,18 @@ vdf.verify(challenge, ${diff}, proof, vdf.DISCRIMINANT_256);`;
 
   randomBtn.addEventListener('click', randomChallenge);
   runBtn.addEventListener('click', runDemo);
-  schemeSelect.addEventListener('change', updateCodePreview);
+  schemeSelect.addEventListener('change', () => {
+    refreshDifficultyOptions();
+    updateCodePreview();
+  });
+  bitsSelect.addEventListener('change', () => {
+    refreshDifficultyOptions();
+    updateCodePreview();
+  });
   difficultySelect.addEventListener('change', updateCodePreview);
 
   randomChallenge();
+  refreshDifficultyOptions(8000);
   updateCodePreview();
   resetSteps();
   log('Ready. Choose options and click “Run live demo”.', 'info');
