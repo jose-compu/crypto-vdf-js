@@ -9,17 +9,31 @@ The crypto-vdf library uses a hybrid testing approach:
 ## Quick Start
 
 ```bash
-# Run all tests (unit + integration)
+# Default: minimal unit tests + fast VDF smoke (~seconds)
 npm test
 
-# Run only fast unit tests
+# Jest only (utils, discriminant, vdf API — no ClassGroup, no golden solve)
 npm run test:unit
+
+# Optional slow Jest (classgroup + golden verify/solve)
+npm run test:slow
 
 # Run only VDF integration tests (precomputed discriminants)
 npm run test:vdf:quick
 
 # Run all integration tests including slow ones
 RUN_SLOW_TESTS=1 npm run test:vdf
+
+# Verbose progress (heartbeat every 5s on long solves — shows the run is not stuck)
+npm run test:comprehensive
+npm run test:vdf:verbose
+npm run test:unit:verbose
+
+# Quieter comprehensive run (no heartbeat lines)
+VDF_VERBOSE=0 npm run test:comprehensive:quick
+
+# Faster heartbeat (every 2s)
+VDF_HEARTBEAT_MS=2000 npm run test:comprehensive
 ```
 
 ## Test Structure
@@ -58,7 +72,27 @@ Located in `tests/*.test.ts`:
 - Difficulty requirements (Pietrzak: even ≥66, Wesolowski: positive)
 - Instance creation
 
-**Time:** ~9 seconds total
+**golden-vectors.test.ts** - Golden regression fixtures (fast)
+- Verifies proofs in `tests/fixtures/golden-vectors.json` (no `solve()` in Jest)
+- Tampered-proof rejection
+
+**Time:** &lt;1 second (included in `npm run test:unit`)
+
+**test-golden-determinism.js** (slow, manual)
+- Re-solves each fixture and checks proof bytes match
+- Run: `npm run test:golden`
+
+### Golden vectors and Rust parity
+
+Fixtures in `tests/fixtures/golden-vectors.json` are **regression vectors** produced by this library (see `source` field). They lock proof format and determinism across releases.
+
+To compare with the [poanetwork/vdf](https://github.com/poanetwork/vdf) Rust implementation:
+
+1. Build or install a Rust VDF CLI from that repo.
+2. Use the same `challenge`, `difficulty`, and precomputed discriminant hex from the fixture.
+3. Run `tests/manual/compare-rust-js.js` when a local `vdf-rs` binary is available.
+
+When Rust and JS proofs match for the same inputs, add those vectors to the fixture file and document the Rust commit hash in the PR.
 
 ### Integration Tests (Node.js)
 
