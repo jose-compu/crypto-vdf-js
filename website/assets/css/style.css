@@ -454,7 +454,262 @@ pre.code-block {
   background: var(--surface);
 }
 
+/* Live demo */
+.demo-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.demo-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem;
+  box-shadow: var(--shadow);
+}
+
+.demo-panel h3 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+}
+
+.demo-field {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.demo-field > span {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.demo-field small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  line-height: 1.4;
+}
+
+.demo-field select,
+.demo-field input[type="text"] {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  background: var(--bg);
+}
+
+.demo-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.demo-input-row input {
+  flex: 1;
+}
+
+.demo-run-btn {
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+  font-size: 1rem;
+  padding: 0.75rem;
+}
+
+.demo-code-preview .code-block {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  max-height: 140px;
+}
+
+.demo-code-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.demo-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-step {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0.55;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.demo-step:last-child {
+  border-bottom: none;
+}
+
+.demo-step.pending {
+  opacity: 0.5;
+}
+
+.demo-step.active {
+  opacity: 1;
+  background: var(--accent-soft);
+  margin: 0 -0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: 8px;
+}
+
+.demo-step.done {
+  opacity: 1;
+}
+
+.demo-step.error {
+  opacity: 1;
+  background: #fef2f2;
+}
+
+.demo-step-slow.active .demo-step-num {
+  background: var(--slow);
+  animation: demo-pulse 1s ease-in-out infinite;
+}
+
+.demo-step-fast.done .demo-step-num {
+  background: var(--fast);
+}
+
+@keyframes demo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.demo-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-step.active .demo-step-num,
+.demo-step.done .demo-step-num {
+  background: var(--accent);
+  color: #fff;
+}
+
+.demo-step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-step-body strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.demo-step-body p {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.demo-step-detail {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent-deep);
+  margin-top: 0.35rem;
+  word-break: break-all;
+}
+
+.demo-log-wrap {
+  margin-top: 1.25rem;
+}
+
+.demo-log {
+  background: #0f172a;
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-top: 0.35rem;
+}
+
+.demo-log-line {
+  padding: 0.15rem 0;
+  border-bottom: 1px solid #1e293b;
+}
+
+.demo-log-success {
+  color: #6ee7b7;
+}
+
+.demo-log-error {
+  color: #fca5a5;
+}
+
+.demo-compare {
+  margin: 1rem 0;
+}
+
+.demo-compare-bar {
+  display: flex;
+  height: 36px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.demo-compare-solve {
+  background: linear-gradient(90deg, #fb923c, #ea580c);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.demo-compare-verify {
+  background: linear-gradient(90deg, #34d399, #059669);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 72px;
+}
+
+.demo-compare-caption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
+  .demo-layout {
+    grid-template-columns: 1fr;
+  }
   .hero-grid,
   .diagram-row,
   .concept-grid,
