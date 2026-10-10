@@ -17,6 +17,7 @@
 - [ ] VDF / integration tests run when touching `src/` VDF or class group code (`npm run test:vdf` or relevant manual test)
 - [ ] README / TESTING / CHANGELOG updated if needed
 - [ ] Golden fixtures regenerated if proof outputs changed (`npm run fixtures:generate`)
+- [ ] No LLM/AI attribution (`Co-authored-by`, “Made with”, etc.) — see `AGENTS.md`
 
 ## Test plan
 

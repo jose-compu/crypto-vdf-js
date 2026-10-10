@@ -45,7 +45,8 @@ Prefer `createVdf({ scheme, bits })` in new examples when callers do not need a 
 3. For VDF logic changes, also run `npm run test:vdf` or the relevant manual test under `tests/manual/`.
 4. Update `README.md` / `TESTING.md` when behavior or usage changes.
 5. Add or update tests for bug fixes and new behavior.
-6. Keep commits focused; write clear commit messages (no AI co-author trailers).
+6. Keep commits focused; write clear commit messages.
+7. **No LLM/AI attribution** — do not add `Co-authored-by`, `Made with`, or similar credits for Cursor, Claude, Copilot, or any other AI tool. See `AGENTS.md`.
 
 ## Changelog and releases
 
