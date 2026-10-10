@@ -182,6 +182,19 @@ nav a:hover {
   align-items: center;
 }
 
+.version-badge {
+  display: inline-block;
+  margin: 0 0 0.85rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid var(--border, #dbe4f0);
+  background: #fff;
+}
+
 .hero h1 {
   font-size: clamp(2rem, 4.5vw, 2.85rem);
   line-height: 1.12;

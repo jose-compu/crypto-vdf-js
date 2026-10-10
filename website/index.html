@@ -41,6 +41,7 @@
       <div class="container hero-grid">
         <div>
           <span class="section-label" data-i18n="hero.label">Proof-of-time cryptography</span>
+          <p class="version-badge">v1.3.0</p>
           <h1 data-i18n-html="hero.title">Time you can prove.<br />Verification anyone can run.</h1>
           <p class="lead" data-i18n-html="hero.lead">
             A <strong>Verifiable Delay Function</strong> forces sequential computation to produce an output—then proves it in milliseconds. Built for Node.js and browsers in TypeScript.
@@ -411,6 +412,14 @@
             <h3 data-i18n="lib.c3.title">Precomputed D</h3>
             <p data-i18n="lib.c3.text">Discriminants from Rust GMP—do not generate in pure JS for production workloads.</p>
           </article>
+          <article class="card">
+            <h3>createVdf (v1.3.0)</h3>
+            <p>High-level facade with auto precomputed discriminant. <code>encodeProof</code> / <code>decodeProof</code> for hex, base64, and JSON.</p>
+          </article>
+          <article class="card">
+            <h3>estimateDifficulty (v1.2.0)</h3>
+            <p>Map a target wall-clock delay to an iteration count for the chosen scheme.</p>
+          </article>
         </div>
         <div class="note" data-i18n-html="lib.note">
           <strong>Production:</strong> Use <code>DISCRIMINANT_*</code> constants and Wesolowski unless you have a specific reason for Pietrzak.
@@ -423,13 +432,14 @@
         <span class="section-label" data-i18n="start.label">Developers</span>
         <h2 data-i18n="start.title">Quick start</h2>
         <pre class="code-block"><code>npm install crypto-vdf</code></pre>
-        <pre class="code-block"><code>import { WesolowskiVDFParams, DISCRIMINANT_256 } from 'crypto-vdf';
+        <pre class="code-block"><code>import { WesolowskiVDFParams, DISCRIMINANT_256, createVdf, encodeProof } from 'crypto-vdf';
 
-const vdf = new WesolowskiVDFParams(256).new();
+const vdf = createVdf({ bits: 256 });
 const challenge = new Uint8Array([0xaa, 0xbb, 0xcc]);
 
-const proof = await vdf.solve(challenge, 100, DISCRIMINANT_256);
-vdf.verify(challenge, 100, proof, DISCRIMINANT_256);</code></pre>
+const proof = await vdf.solve(challenge, 100);
+vdf.verify(challenge, 100, proof);
+const wire = encodeProof(proof, 'hex');</code></pre>
         <div class="links-row">
           <a class="btn btn-primary" href="api/" data-i18n="start.api">API documentation</a>
           <a class="btn btn-ghost" href="https://github.com/jose-compu/crypto-vdf-js">GitHub</a>
@@ -442,7 +452,7 @@ vdf.verify(challenge, 100, proof, DISCRIMINANT_256);</code></pre>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
+      <p>crypto-vdf v1.3.0 · Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
     </div>
   </footer>
 
