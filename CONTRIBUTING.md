@@ -36,6 +36,8 @@ Always pass **precomputed discriminants** (`DISCRIMINANT_256`, etc.) in producti
 
 For wall-clock delay targets, prefer `estimateDifficulty({ bits, targetSeconds })` and re-calibrate with `iterationsPerSecond` on the target device (see README).
 
+Prefer `createVdf({ scheme, bits })` in new examples when callers do not need a custom discriminant. Use `encodeProof` / `decodeProof` for portable proof bytes.
+
 ## Pull requests
 
 1. Branch from `main` (e.g. `feature/my-change`).

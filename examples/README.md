@@ -12,6 +12,14 @@ node examples/node-example.js
 
 This demonstrates both Pietrzak and Wesolowski VDFs with timing information.
 
+## Facade + proof codecs (v1.3)
+
+```bash
+npm run build:node && node examples/facade-and-proof-codec.js
+```
+
+Uses `createVdf` (auto discriminant) and `encodeProof` / `decodeProof` (`hex` / `base64` / `json`).
+
 ## Browser Example
 
 Open the browser example:

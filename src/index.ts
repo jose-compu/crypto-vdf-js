@@ -28,6 +28,17 @@ export type {
   EstimateDifficultyOptions,
   EstimateSolveSecondsOptions,
 } from './difficulty';
+export {
+  encodeProof,
+  decodeProof,
+  proofToHex,
+  hexToProof,
+  proofToBase64,
+  base64ToProof,
+} from './proof-codec';
+export type { ProofFormat, JsonProofEnvelope } from './proof-codec';
+export { createVdf, createVDF } from './facade';
+export type { CreateVdfOptions, VdfBitSize, VdfHandle, VdfScheme } from './facade';
 
 // Export precomputed discriminants (generated using Rust GMP for maximum performance)
 export {

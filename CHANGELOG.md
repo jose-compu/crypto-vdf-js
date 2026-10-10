@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-10
+
+### Added
+
+- `createVdf` / `createVDF` high-level facade with auto precomputed discriminant (#15)
+- `encodeProof` / `decodeProof` (`hex`, `base64`, `json`) plus hex/base64 convenience helpers (#17)
+- README examples for the facade and proof transport codecs
+
 ## [1.2.0] - 2026-07-21
 
 ### Added
