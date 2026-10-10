@@ -76,6 +76,12 @@ Located in `tests/*.test.ts`:
 - `estimateDifficulty` scaling, scheme clamps, overrides
 - `estimateSolveSeconds` / calibration table lookups
 
+**proof-codec.test.ts** - Proof encode/decode
+- hex / base64 / json round-trips and validation errors
+
+**facade.test.ts** - `createVdf` high-level API
+- Auto discriminant, Wesolowski/Pietrzak solve+verify, codec integration
+
 **golden-vectors.test.ts** - Golden regression fixtures (fast)
 - Verifies proofs in `tests/fixtures/golden-vectors.json` (no `solve()` in Jest)
 - Tampered-proof rejection

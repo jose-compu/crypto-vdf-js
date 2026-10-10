@@ -33,6 +33,8 @@ This implementation provides two VDF constructions:
 - Compatible with the original Rust implementation
 - Production-ready with proper error handling
 - **Time-based difficulty helper** (`estimateDifficulty`) for approximate target delays
+- **High-level facade** (`createVdf`) — scheme + bits, discriminant wired automatically
+- **Proof codecs** — hex / base64 / JSON encode–decode for storage and transport
 
 ## Installation
 
@@ -42,7 +44,23 @@ npm install crypto-vdf
 
 ## Quick Start
 
-### Node.js (CommonJS)
+### High-level facade (recommended)
+
+```javascript
+const { createVdf, encodeProof } = require('crypto-vdf');
+
+const vdf = createVdf({ scheme: 'wesolowski', bits: 256 });
+const challenge = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+
+const proof = await vdf.solve(challenge, 100);
+vdf.verify(challenge, 100, proof);
+
+// Portable form for storage / APIs
+const hex = encodeProof(proof, 'hex');
+console.log('✓ Proof verified!', hex.slice(0, 16) + '…');
+```
+
+### Node.js (CommonJS) — explicit params
 
 ```javascript
 const { PietrzakVDFParams, DISCRIMINANT_256 } = require('crypto-vdf');
@@ -346,6 +364,25 @@ const vdf = params.new();
 const proof = await vdf.solve(challenge, 200, DISCRIMINANT_512);
 vdf.verify(challenge, 200, proof, DISCRIMINANT_512);
 ```
+
+### High-level facade (`createVdf`)
+
+```typescript
+import { createVdf, encodeProof, decodeProof } from 'crypto-vdf';
+
+const vdf = createVdf({ scheme: 'wesolowski', bits: 256 });
+// Optional: createVdf({ scheme: 'pietrzak', bits: 512, discriminant: customBigInt })
+
+const challenge = new Uint8Array([0xaa, 0xbb, 0xcc]);
+const proof = await vdf.solve(challenge, 100);
+vdf.verify(challenge, 100, proof);
+
+const asHex = encodeProof(proof, 'hex');
+const asJson = encodeProof(proof, 'json'); // { type, version, proof }
+vdf.verify(challenge, 100, decodeProof(asHex, 'hex'));
+```
+
+Aliases: `createVDF`, `proofToHex` / `hexToProof`, `proofToBase64` / `base64ToProof`.
 
 ### Estimating difficulty from a target delay
 
