@@ -42,7 +42,7 @@ This implementation provides two VDF constructions:
 npm install crypto-vdf
 ```
 
-Current release line: **1.6.x** (docs/teaching polish on top of 1.5 packaging/DX). See [CHANGELOG.md](CHANGELOG.md).
+Current release line: **1.7.x** (repo DX / correct org links on top of 1.6 docs). See [CHANGELOG.md](CHANGELOG.md).
 
 
 ### Subpath exports (tree-shaking)
