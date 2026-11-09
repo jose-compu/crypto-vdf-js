@@ -55,6 +55,13 @@ const challenge = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
 const proof = await vdf.solve(challenge, 100);
 vdf.verify(challenge, 100, proof);
 
+// With progress callback and abort (v1.5+)
+import type { SolveOptions } from 'crypto-vdf';
+const ac = new AbortController();
+const opts: SolveOptions = { onProgress: (c, t) => console.log(`${c}/${t}`), signal: ac.signal };
+const proof2 = await vdf.solve(challenge, 1000, opts);
+// Note: AbortController available in Node 15+, all modern browsers
+
 // Portable form for storage / APIs
 const hex = encodeProof(proof, 'hex');
 console.log('✓ Proof verified!', hex.slice(0, 16) + '…');

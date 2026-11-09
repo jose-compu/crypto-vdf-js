@@ -56,7 +56,9 @@
     "class-group",
     "proof-of-time",
     "blockchain",
-    "randomness"
+    "randomness",
+    "abortsignal",
+    "progress-callback"
   ],
   "author": "jose-blockchain",
   "license": "Apache-2.0",
@@ -88,5 +90,10 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/jose-compu"
+  },
+  "sideEffects": false
 }

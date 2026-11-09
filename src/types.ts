@@ -26,6 +26,16 @@ export class InvalidProof extends Error {
 /**
  * An error indicating an invalid number of iterations.
  */
+/**
+ * Options for {@link VDF.solve}.
+ * - onProgress: called periodically during long solves (throttled)
+ * - signal: AbortSignal for cooperative cancellation
+ */
+export interface SolveOptions {
+  onProgress?: (completed: number, total: number) => void;
+  signal?: AbortSignal;
+}
+
 export class InvalidIterations extends Error {
   constructor(message: string) {
     super(message);
@@ -56,13 +66,16 @@ export interface VDF {
    * 
    * @param challenge - An opaque byte string of arbitrary length
    * @param difficulty - The number of iterations (difficulty level)
+   * @param discriminant - optional precomputed discriminant
+   * @param options - SolveOptions for progress/abort (v1.5+)
    * @returns The proof as a Uint8Array
    * @throws {InvalidIterations} If the difficulty is invalid
    */
   solve(
     challenge: Uint8Array,
     difficulty: number,
-    discriminant?: bigint
+    discriminant?: bigint,
+    options?: SolveOptions
   ): Promise<Uint8Array>;
 
   /**

@@ -95,11 +95,22 @@ async function main() {
   }
 
   // Compare proof sizes
-  console.log('\n=== Comparison ===');
+  console.log('
+=== Comparison ===');
   console.log(`Pietrzak proof size: ${pietrzakProof.length} bytes`);
   console.log(`Wesolowski proof size: ${wesolowskiProof.length} bytes`);
   console.log(`Wesolowski proofs are ${Math.round((1 - wesolowskiProof.length / pietrzakProof.length) * 100)}% smaller`);
-}
+
+  // v1.5+ progress + abort demo (Wesolowski)
+  console.log('
+=== v1.5+ SolveOptions demo ===');
+  const ac = new AbortController();
+  const progressLog: number[] = [];
+  const proofWithOpts = await wesolowski.solve(challenge, 50, {
+    onProgress: (c, t) => { progressLog.push(c); if (c % 5 === 0) console.log(`progress ${c}/${t}`); },
+    signal: ac.signal
+  });
+  console.log(`Demo proof size: ${proofWithOpts.length}, progress points: ${progressLog.length}`);}
 
 main().catch(console.error);
 

@@ -14,7 +14,7 @@
 
 import { ClassGroup, iterateSquarings } from './classgroup';
 import { createDiscriminant } from './discriminant';
-import { InvalidProof, InvalidIterations, VDF } from './types';
+import { InvalidProof, InvalidIterations, VDF, SolveOptions } from './types';
 import { sha256, bytesToBigInt, isProbablePrime, u64ToBytes, modPow } from './utils';
 
 /**
@@ -235,7 +235,7 @@ export class WesolowskiVDF implements VDF {
     }
   }
 
-  async solve(challenge: Uint8Array, difficulty: number, discriminant?: bigint): Promise<Uint8Array> {
+  async solve(challenge: Uint8Array, difficulty: number, discriminant?: bigint, options?: SolveOptions): Promise<Uint8Array> {
     this.checkDifficulty(difficulty);
     
     const disc = discriminant ?? createDiscriminant(challenge, this.intSizeBits);
@@ -250,7 +250,7 @@ export class WesolowskiVDF implements VDF {
     }
     powersToCalculate.push(difficulty);
     
-    const powers = iterateSquarings(x, powersToCalculate);
+    const powers = iterateSquarings(x, powersToCalculate, options?.onProgress, options?.signal);
     const proof = generateProof(x, difficulty, k, l, powers, this.intSizeBits);
     
     return serialize(proof, powers.get(difficulty)!, this.intSizeBits);
