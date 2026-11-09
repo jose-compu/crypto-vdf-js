@@ -82,7 +82,7 @@
     "test:vdf:verbose": "npm run build:node && VDF_VERBOSE=1 node tests/manual/test-vdf-complete.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts --coverage",
-    "test:slow": "jest tests/classgroup.test.ts tests/golden-vectors.test.ts --runInBand --testTimeout=60000",
+    "test:slow": "jest --config jest.slow.config.js --runInBand",
     "lint": "eslint src/**/*.ts tests/**/*.ts --max-warnings 0",
     "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
     "prepublishOnly": "npm run lint && npm run build:node && npm run test:unit",

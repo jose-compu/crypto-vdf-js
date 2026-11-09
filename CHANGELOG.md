@@ -18,7 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Package version 1.8.0; unit tests include worker + lazy discriminant coverage
-- CI daily job runs golden verify (slow path optional) and documents 2048-bit smoke (#5, #6)
+- CI daily job: full golden verify (incl. 512/2048), bench smoke + soft regression caps (#5, #6, #8)
+- ClassGroup `reduce` hot path skips discriminant recomputation when not debugging (#14)
+- Golden fixtures + `tests/fixtures/RUST_PARITY.md` for Rust cross-impl parity workflow (#5)
 
 ## [1.7.0] - 2026-11-09
 

@@ -178,55 +178,64 @@ export class ClassGroup {
    * Reduce the quadratic form (port from Rust inner_reduce)
    */
   reduce(debug = false): ClassGroup {
-    const initialDisc = this.b * this.b - 4n * this.a * this.c;
+    // Hot path (#14): skip discriminant recomputation and logging unless debugging.
+    const initialDisc = debug ? this.b * this.b - 4n * this.a * this.c : 0n;
     if (debug) {
       console.log('reduce() input: a=', this.a, 'b=', this.b, 'c=', this.c, 'disc=', initialDisc);
     }
-    
+
     this.normalize(debug);
-    
+
     let iterations = 0;
     while (this.a > this.c || (this.a === this.c && this.b < 0n)) {
       if (debug) {
-        console.log('  iteration', iterations++, ': a=', this.a, 'b=', this.b, 'c=', this.c);
+        console.log('  iteration', iterations, ': a=', this.a, 'b=', this.b, 'c=', this.c);
       }
-      
+      iterations++;
+
       // s = (c + b) / (2c)
       const s = (this.c + this.b) / (2n * this.c);
-      
+
       // Swap a and c
       const oldA = this.a;
       const oldB = this.b;
       this.a = this.c;
       this.c = oldA;
-      
+
       // b = 2sc - old_b
       this.b = 2n * s * this.a - oldB;
-      
+
       // c = c - s*old_b + s²*a
       this.c = this.c - s * oldB + s * s * this.a;
-      
-      const discAfterStep = this.b * this.b - 4n * this.a * this.c;
-      if (debug && initialDisc !== discAfterStep) {
-        console.log('  WARNING: reduce step changed discriminant from', initialDisc, 'to', discAfterStep);
+
+      if (debug) {
+        const discAfterStep = this.b * this.b - 4n * this.a * this.c;
+        if (initialDisc !== discAfterStep) {
+          console.log(
+            '  WARNING: reduce step changed discriminant from',
+            initialDisc,
+            'to',
+            discAfterStep
+          );
+        }
       }
-      
+
       this.normalize(debug);
-      
+
       if (iterations > 100) {
         if (debug) console.log('  WARNING: Too many iterations in reduce');
         break;
       }
     }
-    
-    const finalDisc = this.b * this.b - 4n * this.a * this.c;
+
     if (debug) {
+      const finalDisc = this.b * this.b - 4n * this.a * this.c;
       console.log('reduce() output: a=', this.a, 'b=', this.b, 'c=', this.c, 'disc=', finalDisc);
       if (initialDisc !== finalDisc) {
         console.log('ERROR: Discriminant changed from', initialDisc, 'to', finalDisc);
       }
     }
-    
+
     return this;
   }
 
@@ -331,9 +340,11 @@ export class ClassGroup {
   }
 
   /**
-   * Square this class group element
+   * Square this class group element (in-place).
+   * Uses multiply(self); further NUDUPL specialization can build on bench (#8/#14).
    */
   square(): void {
+    // Self-multiply then copy fields — avoids an extra ClassGroup wrapper beyond multiply's result.
     const result = this.multiply(this);
     this.a = result.a;
     this.b = result.b;
