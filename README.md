@@ -1,12 +1,12 @@
 # VDF.js (Verifiable Delay Functions for JavaScript)
 
-[![CI](https://github.com/jose-blockchain/crypto-vdf-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jose-blockchain/crypto-vdf-js/actions)
+[![CI](https://github.com/jose-compu/crypto-vdf-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jose-compu/crypto-vdf-js/actions)
 [![npm version](https://img.shields.io/npm/v/crypto-vdf.svg)](https://www.npmjs.com/package/crypto-vdf)
 [![npm downloads](https://img.shields.io/npm/dm/crypto-vdf.svg)](https://www.npmjs.com/package/crypto-vdf)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-green.svg)](https://nodejs.org/)
-[![GitHub stars](https://img.shields.io/github/stars/jose-blockchain/crypto-vdf-js.svg?style=social)](https://github.com/jose-blockchain/crypto-vdf-js/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/jose-compu/crypto-vdf-js.svg?style=social)](https://github.com/jose-compu/crypto-vdf-js/stargazers)
 
 Verifiable Delay Functions (VDF) library for Node.js and browsers. Pure TypeScript implementation with precomputed discriminants for optimal performance.
 
@@ -41,6 +41,9 @@ This implementation provides two VDF constructions:
 ```bash
 npm install crypto-vdf
 ```
+
+Current release line: **1.6.x** (docs/teaching polish on top of 1.5 packaging/DX). See [CHANGELOG.md](CHANGELOG.md).
+
 
 ### Subpath exports (tree-shaking)
 
@@ -681,12 +684,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). In short:
 
 ## Author
 
-**jose-blockchain**
+**jose-compu**
 - JavaScript/TypeScript port of the Rust VDF implementation
 
 ## License
 
-Copyright 2025 jose-blockchain and VDF-JS Contributors
+Copyright 2025 jose-compu and VDF-JS Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

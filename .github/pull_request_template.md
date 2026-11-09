@@ -8,6 +8,9 @@
 - [ ] v1.1 — Quality / docs / DX
 - [ ] v1.2 — Performance
 - [ ] v1.3 — API ergonomics
+- [ ] v1.5 — Packaging / DX
+- [ ] v1.6 — Docs / teaching
+- [ ] v1.7 — Quality / repo DX
 - [ ] v2.0 — Platform / security
 
 ## Checklist

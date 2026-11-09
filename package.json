@@ -93,16 +93,16 @@
     "abortsignal",
     "progress-callback"
   ],
-  "author": "jose-blockchain",
+  "author": "jose-compu",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jose-blockchain/crypto-vdf-js.git"
+    "url": "git+https://github.com/jose-compu/crypto-vdf-js.git"
   },
   "bugs": {
-    "url": "https://github.com/jose-blockchain/crypto-vdf-js/issues"
+    "url": "https://github.com/jose-compu/crypto-vdf-js/issues"
   },
-  "homepage": "https://github.com/jose-blockchain/crypto-vdf-js#readme",
+  "homepage": "https://github.com/jose-compu/crypto-vdf-js#readme",
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
