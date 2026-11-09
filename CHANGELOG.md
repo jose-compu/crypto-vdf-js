@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Skip browser build in tests for faster execution ([8af5155](https://github.com/jose-compu/crypto-vdf-js/commit/8af5155e86f6cdf79825b048faf9aaa408ac68a1))
 
-## [Unreleased]
+## [1.5.0] - 2026-11-09
 
 ### Added
 - Optional `onProgress` callback (throttled ~every 5 steps) and `AbortSignal` support in `solve()` (`SolveOptions`) (#12)
