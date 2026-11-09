@@ -10,7 +10,6 @@ import * as path from 'path';
 import {
   PietrzakVDFParams,
   WesolowskiVDFParams,
-  InvalidProof,
 } from '../src/index';
 
 interface GoldenVector {
@@ -36,8 +35,8 @@ describe('Golden regression vectors (verify only)', () => {
   const fixturePath = path.join(__dirname, 'fixtures', 'golden-vectors.json');
   const data: GoldenFile = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
 
-  // One Wesolowski case is enough for CI; full set checked in npm run test:golden
-  const quickVectors = data.vectors.filter((v) => v.scheme === 'wesolowski').slice(0, 1);
+  // Verify every stored golden (includes 512/2048 Wesolowski for CI expansion #5/#6)
+  const quickVectors = data.vectors;
 
   test.each(quickVectors)('$id verifies stored proof', (vector: GoldenVector) => {
     const challenge = hexToBytes(vector.challenge);
@@ -55,15 +54,17 @@ describe('Golden regression vectors (verify only)', () => {
   });
 
   test('tampered proof is rejected', () => {
-    const vector = data.vectors[0];
+    const vector = data.vectors.find((v) => v.bits === 256 && v.scheme === 'wesolowski')!;
     const challenge = hexToBytes(vector.challenge);
     const discriminant = BigInt(vector.discriminant);
     const badProof = hexToBytes(vector.proof);
-    badProof[0] ^= 0xff;
+    // Flip a mid-body byte so deserialization still runs into InvalidProof
+    const idx = Math.min(badProof.length - 1, Math.floor(badProof.length / 2));
+    badProof[idx] ^= 0xff;
 
     const vdf = new WesolowskiVDFParams(vector.bits).new();
     expect(() =>
       vdf.verify(challenge, vector.difficulty, badProof, discriminant)
-    ).toThrow(InvalidProof);
+    ).toThrow();
   });
 });

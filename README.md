@@ -35,6 +35,9 @@ This implementation provides two VDF constructions:
 - **Time-based difficulty helper** (`estimateDifficulty`) for approximate target delays
 - **High-level facade** (`createVdf`) — scheme + bits, discriminant wired automatically
 - **Proof codecs** — hex / base64 / JSON encode–decode for storage and transport
+- **Benchmarks** — `npm run bench` (median timings, optional CI regression caps)
+- **Workers** — browser `createVdfWorker` and Node `createNodeVdfWorker` / `verifyBatch`
+- **Lazy discriminants** — `loadPrecomputedDiscriminant` for code-split bundles
 
 ## Installation
 
@@ -42,7 +45,7 @@ This implementation provides two VDF constructions:
 npm install crypto-vdf
 ```
 
-Current release line: **1.7.x** (repo DX / correct org links on top of 1.6 docs). See [CHANGELOG.md](CHANGELOG.md).
+Current release line: **1.8.x** (repo DX / correct org links on top of 1.6 docs). See [CHANGELOG.md](CHANGELOG.md).
 
 
 ### Subpath exports (tree-shaking)

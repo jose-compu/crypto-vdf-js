@@ -23,3 +23,12 @@ const discriminant = BigInt(vector.discriminant);
 const inst = new vdf.WesolowskiVDFParams(256).new();
 inst.verify(challenge, vector.difficulty, proof, discriminant);
 console.log('CI smoke: Wesolowski 256-bit verify OK');
+
+const v2048 = data.vectors.find((v) => v.scheme === 'wesolowski' && v.bits === 2048);
+if (v2048) {
+  const ch = Uint8Array.from(Buffer.from(v2048.challenge, 'hex'));
+  const pr = Uint8Array.from(Buffer.from(v2048.proof, 'hex'));
+  const disc = BigInt(v2048.discriminant);
+  new vdf.WesolowskiVDFParams(2048).new().verify(ch, v2048.difficulty, pr, disc);
+  console.log('CI smoke: Wesolowski 2048-bit verify OK');
+}

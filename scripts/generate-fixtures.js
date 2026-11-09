@@ -14,6 +14,9 @@ const CASES = [
   { scheme: 'wesolowski', bits: 256, difficulty: 100, disc: 'DISCRIMINANT_256' },
   { scheme: 'pietrzak', bits: 256, difficulty: 66, disc: 'DISCRIMINANT_256' },
   { scheme: 'pietrzak', bits: 256, difficulty: 100, disc: 'DISCRIMINANT_256' },
+  // Larger sizes for CI smoke / parity (#5, #6) — low difficulty keeps solve cheap
+  { scheme: 'wesolowski', bits: 512, difficulty: 66, disc: 'DISCRIMINANT_512' },
+  { scheme: 'wesolowski', bits: 2048, difficulty: 10, disc: 'DISCRIMINANT_2048' },
 ];
 
 async function main() {

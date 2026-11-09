@@ -46,8 +46,22 @@ jobs:
       - name: Run VDF smoke (verify only)
         run: npm run test:smoke
 
+      - name: Golden vector verify (Jest slow subset)
+        run: npm run test:slow
+
+      - name: Bench smoke (no regression gate)
+        run: BENCH_RUNS=1 BENCH_WARMUP=0 npm run bench
+
+      # Soft regression caps (generous) — fail only on catastrophic slowdowns (#6/#8)
+      - name: Bench regression thresholds
+        run: >
+          BENCH_RUNS=3 BENCH_WARMUP=1 BENCH_FAIL_ON_REGRESSION=1
+          BENCH_MAX_MS_JSON='{"wesolowski-256-solve":60000,"wesolowski-256-verify":30000,"pietrzak-256-solve":60000,"pietrzak-256-verify":30000}'
+          npm run bench
+
       # Full VDF matrix is slow — run locally or on release, not every daily run
       # npm run test:comprehensive
+      # 2048-bit solve is heavy; verify path covered via precomputed discriminant unit tests
 
   # Aggregate gate so branch protection can require a single check name
   ci-success:
