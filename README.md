@@ -437,8 +437,6 @@ const challenge = new Uint8Array([0xaa, 0xbb, 0xcc]);
 const proof = await vdf.solve(challenge, difficulty, DISCRIMINANT_256);
 vdf.verify(challenge, difficulty, proof, DISCRIMINANT_256);
 
-<!-- TODO #31 (milestone 1.6): full FAQ on bit sizes + estimateDifficulty -->
-
 // Pietrzak: result is even and clamped to [66, 7000]
 const pietrzakDiff = estimateDifficulty({
   bits: 256,
