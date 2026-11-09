@@ -1,5 +1,9 @@
 // Node.js Example - Verifiable Delay Function (VDF)
+// Teaching example: shows setup, solve, verify for both schemes.
 // Always pass a precomputed discriminant on the low-level API.
+// - challenge: 8-byte seed
+// - difficulty: iteration count (controls delay)
+// - disc: precomputed class-group discriminant (fast, deterministic)
 const {
   PietrzakVDFParams,
   WesolowskiVDFParams,
