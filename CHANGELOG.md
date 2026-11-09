@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-11-09
+
+### Added
+- Teaching annotations on Node examples (`examples/node-example.js`, `examples/node-basic.ts`)
+- FAQ cleanup for discriminant sizes and difficulty guidance (milestone 1.6 docs)
+
+### Changed
+- Documentation polish for API discoverability after 1.5 packaging/DX
+
 ## [1.4.1](https://github.com/jose-compu/crypto-vdf-js/compare/crypto-vdf-v1.4.0...crypto-vdf-v1.4.1) (2026-11-09)
 
 
