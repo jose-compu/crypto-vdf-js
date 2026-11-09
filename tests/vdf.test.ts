@@ -37,6 +37,10 @@ describe('Pietrzak VDF', () => {
     
     // Should reject numbers < 66
     expect(() => vdf.checkDifficulty(64)).toThrow(InvalidIterations);
+
+    // Hard ceiling in this JS port (issue #22)
+    expect(() => vdf.checkDifficulty(7000)).not.toThrow();
+    expect(() => vdf.checkDifficulty(7002)).toThrow(InvalidIterations);
   });
 
   test('should create VDF instances with different bit sizes', () => {

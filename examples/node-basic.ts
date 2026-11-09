@@ -12,105 +12,73 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * Smallest teaching example: evaluate → verify with a precomputed discriminant.
+ *
+ * Run (after build): npx ts-node examples/node-basic.ts
+ * Or compile against dist: node -r ts-node/register … / use the JS examples.
+ *
+ * Prefer createVdf() in apps; this file shows the low-level params API.
+ */
+
 import {
-  PietrzakVDFParams,
   WesolowskiVDFParams,
-  InvalidProof
+  DISCRIMINANT_256,
+  InvalidProof,
+  type SolveOptions,
 } from '../src/index';
 
-/**
- * Basic example of using VDF in Node.js
- */
 async function main() {
-  console.log('VDF.js Example - Node.js\n');
+  console.log('VDF.js — basic evaluate → verify\n');
 
-  // Challenge (can be any byte string)
+  // 1) Challenge: arbitrary bytes (e.g. block hash, beacon seed).
   const challenge = new Uint8Array([0xaa]);
-  
-  // Difficulty (number of iterations)
-  const difficulty = 100;
-  
-  // Bit length of the discriminant
-  const bitLength = 2048;
 
-  // === Pietrzak VDF Example ===
-  console.log('=== Pietrzak VDF ===');
-  const pietrzak = new PietrzakVDFParams(bitLength).new();
-  
-  console.log(`Solving VDF with challenge: ${Buffer.from(challenge).toString('hex')}`);
-  console.log(`Difficulty: ${difficulty} iterations`);
-  console.log('This may take a minute...\n');
-  
-  const startTime = Date.now();
-  const pietrzakProof = await pietrzak.solve(challenge, difficulty);
-  const solveTime = Date.now() - startTime;
-  
-  console.log(`Proof generated in ${solveTime}ms`);
-  console.log(`Proof size: ${pietrzakProof.length} bytes`);
-  console.log(`Proof (hex): ${Buffer.from(pietrzakProof).toString('hex').substring(0, 64)}...`);
-  
-  // Verify the proof
-  console.log('\nVerifying proof...');
-  const verifyStartTime = Date.now();
-  
+  // 2) Difficulty: iteration count (not seconds). Keep small for a quick demo.
+  //    Use estimateDifficulty() when you care about wall-clock delay.
+  const difficulty = 66;
+
+  // 3) Discriminant: always pass a precomputed value for the low-level API.
+  //    Generating one in pure JS is extremely slow.
+  const discriminant = DISCRIMINANT_256;
+
+  // 4) Scheme: Wesolowski is recommended for production (no ≤7000 cap, smaller proofs).
+  const vdf = new WesolowskiVDFParams(256).new();
+
+  console.log(`challenge: ${Buffer.from(challenge).toString('hex')}`);
+  console.log(`difficulty: ${difficulty} iterations`);
+  console.log('solving…');
+
+  // Optional v1.5+ SolveOptions: progress + cooperative cancel
+  const options: SolveOptions = {
+    onProgress: (completed, total) => {
+      if (completed === total || completed % 10 === 0) {
+        console.log(`  progress ${completed}/${total}`);
+      }
+    },
+  };
+
+  const start = Date.now();
+  // Low-level solve(challenge, difficulty, discriminant, options?)
+  const proof = await vdf.solve(challenge, difficulty, discriminant, options);
+  console.log(`solved in ${Date.now() - start}ms, proof ${proof.length} bytes`);
+
+  // 5) Verify is fast relative to solve
+  console.log('verifying…');
   try {
-    pietrzak.verify(challenge, difficulty, pietrzakProof);
-    const verifyTime = Date.now() - verifyStartTime;
-    console.log(`✓ Proof verified successfully in ${verifyTime}ms`);
+    vdf.verify(challenge, difficulty, proof, discriminant);
+    console.log('✓ proof verified');
   } catch (error) {
     if (error instanceof InvalidProof) {
-      console.log('✗ Proof verification failed');
-    } else {
-      throw error;
+      console.log('✗ verification failed');
+      process.exitCode = 1;
+      return;
     }
+    throw error;
   }
+}
 
-  // === Wesolowski VDF Example ===
-  console.log('\n=== Wesolowski VDF ===');
-  const wesolowski = new WesolowskiVDFParams(bitLength).new();
-  
-  console.log('Solving VDF...');
-  const wesolowskiStartTime = Date.now();
-  const wesolowskiProof = await wesolowski.solve(challenge, difficulty);
-  const wesolowskiSolveTime = Date.now() - wesolowskiStartTime;
-  
-  console.log(`Proof generated in ${wesolowskiSolveTime}ms`);
-  console.log(`Proof size: ${wesolowskiProof.length} bytes`);
-  console.log(`Proof (hex): ${Buffer.from(wesolowskiProof).toString('hex').substring(0, 64)}...`);
-  
-  // Verify the proof
-  console.log('\nVerifying proof...');
-  const wesolowskiVerifyStartTime = Date.now();
-  
-  try {
-    wesolowski.verify(challenge, difficulty, wesolowskiProof);
-    const wesolowskiVerifyTime = Date.now() - wesolowskiVerifyStartTime;
-    console.log(`✓ Proof verified successfully in ${wesolowskiVerifyTime}ms`);
-  } catch (error) {
-    if (error instanceof InvalidProof) {
-      console.log('✗ Proof verification failed');
-    } else {
-      throw error;
-    }
-  }
-
-  // Compare proof sizes
-  console.log('
-=== Comparison ===');
-  console.log(`Pietrzak proof size: ${pietrzakProof.length} bytes`);
-  console.log(`Wesolowski proof size: ${wesolowskiProof.length} bytes`);
-  console.log(`Wesolowski proofs are ${Math.round((1 - wesolowskiProof.length / pietrzakProof.length) * 100)}% smaller`);
-
-  // v1.5+ progress + abort demo (Wesolowski)
-  console.log('
-=== v1.5+ SolveOptions demo ===');
-  const ac = new AbortController();
-  const progressLog: number[] = [];
-  const proofWithOpts = await wesolowski.solve(challenge, 50, {
-    onProgress: (c, t) => { progressLog.push(c); if (c % 5 === 0) console.log(`progress ${c}/${t}`); },
-    signal: ac.signal
-  });
-  console.log(`Demo proof size: ${proofWithOpts.length}, progress points: ${progressLog.length}`);}
-
-main().catch(console.error);
-
+main().catch((err) => {
+  console.error(err);
+  process.exitCode = 1;
+});

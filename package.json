@@ -7,10 +7,40 @@
   "browser": "dist/browser/vdf.min.js",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
       "browser": "./dist/browser/vdf.min.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./pietrzak": {
+      "types": "./dist/pietrzak.d.ts",
+      "import": "./dist/esm/pietrzak.js",
+      "require": "./dist/pietrzak.js"
+    },
+    "./wesolowski": {
+      "types": "./dist/wesolowski.d.ts",
+      "import": "./dist/esm/wesolowski.js",
+      "require": "./dist/wesolowski.js"
+    },
+    "./discriminants": {
+      "types": "./dist/precomputed-discriminants.d.ts",
+      "import": "./dist/esm/precomputed-discriminants.js",
+      "require": "./dist/precomputed-discriminants.js"
+    },
+    "./difficulty": {
+      "types": "./dist/difficulty.d.ts",
+      "import": "./dist/esm/difficulty.js",
+      "require": "./dist/difficulty.js"
+    },
+    "./proof-codec": {
+      "types": "./dist/proof-codec.d.ts",
+      "import": "./dist/esm/proof-codec.js",
+      "require": "./dist/proof-codec.js"
+    },
+    "./facade": {
+      "types": "./dist/facade.d.ts",
+      "import": "./dist/esm/facade.js",
+      "require": "./dist/facade.js"
     }
   },
   "files": [
@@ -21,7 +51,7 @@
   ],
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
-    "build:node": "tsc && tsc --module esnext --outDir dist/esm && node scripts/fix-esm-imports.js && mv dist/esm/index.js dist/index.mjs",
+    "build:node": "tsc && tsc --module esnext --outDir dist/esm && node scripts/fix-esm-imports.js && cp dist/esm/index.js dist/index.mjs",
     "build:browser": "webpack --config webpack.config.js",
     "test": "npm run test:unit && npm run test:smoke",
     "test:unit": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts --config jest.config.js",

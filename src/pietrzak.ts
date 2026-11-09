@@ -307,6 +307,13 @@ export class PietrzakVDF implements VDF {
         `Pietrzak proof-of-time must run for at least 66 iterations, not ${difficulty}`
       );
     }
+    // Hard ceiling in this JS port: extended proof chains accumulate rounding
+    // error above ~7000 (see issue #22 / KNOWN_ISSUES). Use Wesolowski instead.
+    if (difficulty > 7000) {
+      throw new InvalidIterations(
+        `Pietrzak difficulty must be <= 7000 in this implementation (got ${difficulty}); use WesolowskiVDF for higher difficulties`
+      );
+    }
   }
 
   async solve(challenge: Uint8Array, difficulty: number, discriminant?: bigint, options?: SolveOptions): Promise<Uint8Array> {
