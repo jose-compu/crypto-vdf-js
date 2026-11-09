@@ -75,7 +75,10 @@
     "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
     "prepublishOnly": "npm run lint && npm run build:node && npm run test:unit",
     "publish:wait": "node scripts/publish-after-wait.js",
-    "clean": "rm -rf dist coverage"
+    "clean": "rm -rf dist coverage",
+    "prepare": "node scripts/install-git-hooks.js",
+    "hooks:install": "node scripts/install-git-hooks.js",
+    "precommit": "bash scripts/pre-commit"
   },
   "keywords": [
     "vdf",

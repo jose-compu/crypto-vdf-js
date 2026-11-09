@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Local gate replacing push/PR CI: lint, Node build, unit tests, smoke.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+echo "[pre-commit] lint"
+npm run lint
+
+echo "[pre-commit] build:node"
+npm run build:node
+
+echo "[pre-commit] test:unit"
+npm run test:unit
+
+echo "[pre-commit] test:smoke"
+npm run test:smoke
+
+echo "[pre-commit] ok"
