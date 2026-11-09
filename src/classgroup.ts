@@ -464,7 +464,7 @@ export function iterateSquarings(
     current.repeatedSquare(diff);
     powersCalculated.set(currentPower, current.clone());
     previousPower = currentPower;
-    if (onProgress && (i === 0 || i === sorted.length - 1 || (i + 1) % Math.max(1, Math.floor(total / 5)) === 0)) onProgress(i + 1, total);
+    if (onProgress && (i === 0 || i === sorted.length - 1 || (i + 1) % Math.max(1, Math.floor(total / 5)) === 0)) onProgress(i + 1, total); // throttled for DX
   }
   
   return powersCalculated;
