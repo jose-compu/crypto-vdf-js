@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1](https://github.com/jose-compu/crypto-vdf-js/compare/crypto-vdf-v1.4.0...crypto-vdf-v1.4.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* node:crypto import for Deno/Bun compat ([#36](https://github.com/jose-compu/crypto-vdf-js/issues/36)) ([c33223c](https://github.com/jose-compu/crypto-vdf-js/commit/c33223c162e3a516408c2a8d58cdf467790dd8ab))
+
 ## [1.4.0](https://github.com/jose-compu/crypto-vdf-js/compare/crypto-vdf-v1.3.0...crypto-vdf-v1.4.0) (2026-10-10)
 
 
