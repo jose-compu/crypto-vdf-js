@@ -80,8 +80,9 @@ const proof = await vdf.solve(challenge, 100);
 vdf.verify(challenge, 100, proof);
 
 // With progress callback and abort (v1.5+)
+import type { SolveOptions } from 'crypto-vdf';
 const ac = new AbortController();
-const opts = { onProgress: (c, t) => console.log(`${c}/${t}`), signal: ac.signal };
+const opts: SolveOptions = { onProgress: (c, t) => console.log(`${c}/${t}`), signal: ac.signal };
 const proof2 = await vdf.solve(challenge, 1000, opts);
 // Note: AbortController available in Node 15+, all modern browsers.
 // createVdf wires the discriminant; low-level *.solve still needs DISCRIMINANT_*.

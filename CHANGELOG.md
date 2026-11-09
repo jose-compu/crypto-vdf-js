@@ -40,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs: examples index, FAQ (discriminants + `estimateDifficulty`), annotated `examples/node-basic.ts` (#7, #30–#32)
 - Runtime guard: Pietrzak `checkDifficulty` rejects difficulty > 7000 (#22 triage)
 
+### Added
+- Optional `onProgress` callback (throttled ~every 5 steps) and `AbortSignal` support in `solve()` (SolveOptions type exported) for better DX during long computations (v1.5 milestone: Packaging/DX)
+
 ### Fixed
 - Examples and README consistently pass precomputed discriminants on the low-level API (#7)
 
