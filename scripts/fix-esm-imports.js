@@ -52,3 +52,8 @@ console.log('Fixing ESM imports to include .js extensions...');
 fixImports(esmDir);
 console.log('✓ ESM imports fixed');
 
+
+// Mark ESM tree as native ES modules (keeps package root dual CJS/ESM).
+const esmPkg = path.join(esmDir, 'package.json');
+fs.writeFileSync(esmPkg, JSON.stringify({ type: 'module' }, null, 2) + '\n');
+console.log('✓ wrote dist/esm/package.json (type: module)');

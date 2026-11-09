@@ -1,53 +1,40 @@
-# VDF-JS Examples
+# Examples
 
-This directory contains working examples of using crypto-vdf in different environments.
+Quick map of demos under `examples/`. Prefer **Wesolowski** for production or difficulty &gt; 7000; **Pietrzak** is fine for learning and moderate difficulties (even, 66–7000).
 
-## Node.js Example
+| File | Scheme(s) | Runtime | Notes |
+|------|-----------|---------|--------|
+| [`node-basic.ts`](./node-basic.ts) | Wesolowski | Node / TS | Smallest teaching path: discriminant → solve → verify (+ `SolveOptions`) |
+| [`node-example.js`](./node-example.js) | Pietrzak + Wesolowski | Node CJS | Side-by-side solve/verify with precomputed 256-bit discriminant |
+| [`facade-and-proof-codec.js`](./facade-and-proof-codec.js) | via `createVdf` | Node CJS | High-level facade + hex/base64/JSON proof codecs |
+| [`browser.html`](./browser.html) / [`browser-example.html`](./browser-example.html) | both (bundle) | Browser | UMD bundle usage |
+| [`test-readme-nodejs.js`](./test-readme-nodejs.js) | both | Node | Guards README snippets |
+| [`test-readme-browser.html`](./test-readme-browser.html) | both | Browser | README browser snippets |
+| [`README-TESTING.md`](./README-TESTING.md) | — | — | How example/README tests are run |
 
-Run the Node.js example:
+## Run commands
+
+From the repo root (after `npm run build:node`):
 
 ```bash
+# Teaching example (TypeScript against src/)
+npx --yes ts-node --transpile-only examples/node-basic.ts
+
+# CommonJS demos against dist/
 node examples/node-example.js
+node examples/facade-and-proof-codec.js
+node examples/test-readme-nodejs.js
 ```
 
-This demonstrates both Pietrzak and Wesolowski VDFs with timing information.
+Open the HTML files in a browser after `npm run build:browser` (bundle at `dist/browser/vdf.min.js`).
 
-## Facade + proof codecs (v1.3)
+## Pietrzak vs Wesolowski (one line)
 
-```bash
-npm run build:node && node examples/facade-and-proof-codec.js
-```
-
-Uses `createVdf` (auto discriminant) and `encodeProof` / `decodeProof` (`hex` / `base64` / `json`).
-
-## Browser Example
-
-Open the browser example:
-
-```bash
-# Option 1: Open directly in browser
-open examples/browser-example.html
-
-# Option 2: Serve with a local server (recommended)
-npx http-server . -p 8080
-# Then visit: http://localhost:8080/examples/browser-example.html
-```
-
-The browser example provides an interactive demo with buttons to run each VDF scheme.
-
-## What the Examples Demonstrate
-
-Both examples show:
-- Creating VDF instances (Pietrzak and Wesolowski)
-- Generating proofs with `solve(challenge, difficulty)`
-- Verifying proofs with `verify(challenge, difficulty, proof)`
-- Measuring performance (solve and verify times)
-
-For production delay targets, see `estimateDifficulty` in the main README (map seconds → iterations, then re-calibrate on your hardware).
+- **Pietrzak** — longer proofs, even difficulty in `[66, 7000]` in this JS port.
+- **Wesolowski** — shorter proofs, no difficulty ceiling here; default recommendation.
 
 ## Requirements
 
-- Node.js 18+ for Node.js examples
-- Modern browser (Chrome 90+, Firefox 88+, Safari 14+) for browser example
-- Built distribution files (`npm run build`)
-
+- Node.js 18+ for Node examples
+- Modern browser for HTML demos
+- Built distribution (`npm run build` or at least `npm run build:node`)

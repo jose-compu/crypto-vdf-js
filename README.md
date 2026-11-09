@@ -42,6 +42,30 @@ This implementation provides two VDF constructions:
 npm install crypto-vdf
 ```
 
+### Subpath exports (tree-shaking)
+
+Import only what you need (Node CJS + ESM):
+
+```javascript
+// Full package
+const vdf = require('crypto-vdf');
+
+// Narrower entry points (v1.5+)
+const { WesolowskiVDFParams } = require('crypto-vdf/wesolowski');
+const { DISCRIMINANT_256 } = require('crypto-vdf/discriminants');
+const { estimateDifficulty } = require('crypto-vdf/difficulty');
+const { createVdf } = require('crypto-vdf/facade');
+const { encodeProof } = require('crypto-vdf/proof-codec');
+// Also: crypto-vdf/pietrzak
+```
+
+```javascript
+import { WesolowskiVDFParams } from 'crypto-vdf/wesolowski';
+import { DISCRIMINANT_256 } from 'crypto-vdf/discriminants';
+```
+
+Working demos: see [`examples/README.md`](examples/README.md).
+
 ## Quick Start
 
 ### High-level facade (recommended)
@@ -60,7 +84,8 @@ import type { SolveOptions } from 'crypto-vdf';
 const ac = new AbortController();
 const opts: SolveOptions = { onProgress: (c, t) => console.log(`${c}/${t}`), signal: ac.signal };
 const proof2 = await vdf.solve(challenge, 1000, opts);
-// Note: AbortController available in Node 15+, all modern browsers
+// Note: AbortController available in Node 15+, all modern browsers.
+// createVdf wires the discriminant; low-level *.solve still needs DISCRIMINANT_*.
 
 // Portable form for storage / APIs
 const hex = encodeProof(proof, 'hex');
@@ -452,7 +477,19 @@ Built-in calibration (Node.js, precomputed discriminant, typical modern CPU):
 
 Read the table with `getCalibratedIterationsPerSecond(bits)`. Browsers and low-power devices are often several times slower — always re-calibrate for production delay targets.
 
+### FAQ: discriminant sizes and `estimateDifficulty`
+
+**Which precomputed sizes exist?** `DISCRIMINANT_256`, `_512`, `_1024`, and `_2048` (also `getPrecomputedDiscriminant(bits)`). Use **256/512** for tests and demos, **≥1024** for production-ish security, **2048** when you want a larger class-group security margin.
+
+**Do I always pass a discriminant?** With `createVdf({ scheme, bits })`, no — the facade selects a precomputed discriminant. With `PietrzakVDFParams` / `WesolowskiVDFParams`, pass `DISCRIMINANT_*` (or another valid discriminant) on every `solve` / `verify`. Omitting it falls back to slow pure-JS generation from the challenge.
+
+**What does `estimateDifficulty` guarantee?** Nothing exact. It maps a *target wall-clock delay* to an *iteration count* using a calibration table (or your `iterationsPerSecond`). Hardware, engine, and load change the real delay. For Pietrzak it also forces an even value in `[66, 7000]`. Measure on the target machine when the delay matters.
+
+**Pietrzak vs Wesolowski?** Pietrzak: even difficulty, hard max **7000** in this JS port (`checkDifficulty` enforces it). Wesolowski: no that ceiling, shorter proofs — preferred for production.
+
 ## Examples
+
+See also [`examples/README.md`](examples/README.md) for a file-by-file index.
 
 ### Basic Usage
 

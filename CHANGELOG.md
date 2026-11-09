@@ -32,13 +32,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Skip browser build in tests for faster execution ([8af5155](https://github.com/jose-compu/crypto-vdf-js/commit/8af5155e86f6cdf79825b048faf9aaa408ac68a1))
 
-## [Unreleased]
+## [1.5.0] - 2026-11-09
+
+### Added
+- Optional `onProgress` callback (throttled ~every 5 steps) and `AbortSignal` support in `solve()` (`SolveOptions`) (#12)
+- Package subpath exports: `crypto-vdf/pietrzak`, `/wesolowski`, `/discriminants`, `/difficulty`, `/proof-codec`, `/facade` (#18)
+- Docs: examples index, FAQ (discriminants + `estimateDifficulty`), annotated `examples/node-basic.ts` (#7, #30–#32)
+- Runtime guard: Pietrzak `checkDifficulty` rejects difficulty > 7000 (#22 triage)
 
 ### Added
 - Optional `onProgress` callback (throttled ~every 5 steps) and `AbortSignal` support in `solve()` (SolveOptions type exported) for better DX during long computations (v1.5 milestone: Packaging/DX)
 
 ### Fixed
-- Use `node:crypto` import for improved Deno/Bun compatibility (issue #19)
+- Examples and README consistently pass precomputed discriminants on the low-level API (#7)
 
 ## [1.3.0] - 2026-10-10
 
