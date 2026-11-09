@@ -38,6 +38,8 @@ This implementation provides two VDF constructions:
 - **Benchmarks** — `npm run bench` (median timings, optional CI regression caps)
 - **Workers** — browser `createVdfWorker` and Node `createNodeVdfWorker` / `verifyBatch`
 - **Lazy discriminants** — `loadPrecomputedDiscriminant` for code-split bundles
+- **CLI** — `crypto-vdf solve|verify|version` for local solve/verify without a script
+- **Property tests** — `fast-check` round-trips (`npm run test:property`)
 
 ## Installation
 
@@ -45,7 +47,19 @@ This implementation provides two VDF constructions:
 npm install crypto-vdf
 ```
 
-Current release line: **1.8.x** (repo DX / correct org links on top of 1.6 docs). See [CHANGELOG.md](CHANGELOG.md).
+Current release line: **1.8.x**. See [CHANGELOG.md](CHANGELOG.md).
+
+### CLI
+
+After install (or from a local build: `npm run build:node`):
+
+```bash
+npx crypto-vdf solve --challenge deadbeef --difficulty 66
+npx crypto-vdf verify --challenge deadbeef --difficulty 66 --proof <hex>
+npx crypto-vdf version
+```
+
+Options: `--scheme wesolowski|pietrzak`, `--bits 256|512|1024|2048`, `--format hex|base64`, `--json`.
 
 
 ### Subpath exports (tree-shaking)
@@ -626,6 +640,7 @@ Test coverage includes:
 - Wesolowski VDF implementation
 - Cross-compatibility tests
 - Error handling
+- Property-based tests (`npm run test:property`, fast-check)
 
 ## Browser Compatibility
 
