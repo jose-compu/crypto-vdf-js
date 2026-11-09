@@ -1,0 +1,12 @@
+{
+  "kind": "edit",
+  "path": "webpack.config.js",
+  "promptNumber": 2,
+  "promptId": "#2",
+  "stepId": "#2:webpack.config.js",
+  "before": {
+    "kind": "content",
+    "content": "const path = require('path');\nconst webpack = require('webpack');\n\nmodule.exports = {\n  mode: 'production',\n  entry: './src/index.ts',\n  output: {\n    path: path.resolve(__dirname, 'dist/browser'),\n    filename: 'vdf.min.js',\n    library: 'vdf',\n    libraryTarget: 'umd',\n    globalObject: 'this',\n    umdNamedDefine: true\n  },\n  resolve: {\n    extensions: ['.ts', '.js'],\n    fallback: {\n      crypto: require.resolve('crypto-browserify'),\n      stream: require.resolve('stream-browserify'),\n      buffer: require.resolve('buffer')\n    }\n  },\n  plugins: [\n    new webpack.ProvidePlugin({\n      Buffer: ['buffer', 'Buffer'],\n      process: 'process/browser'\n    })\n  ],\n  module: {\n    rules: [\n      {\n        test: /\\.ts$/,\n        use: 'ts-loader',\n        exclude: /node_modules/\n      }\n    ]\n  },\n  optimization: {\n    minimize: true\n  }\n};\n\n"
+  },
+  "diff": "--- webpack.config.js\n+++ webpack.config.js\n@@ -15,8 +15,9 @@\n   resolve: {\n     extensions: ['.ts', '.js'],\n     fallback: {\n       crypto: require.resolve('crypto-browserify'),\n+      'node:crypto': require.resolve('crypto-browserify'),\n       stream: require.resolve('stream-browserify'),\n       buffer: require.resolve('buffer')\n     }\n   },\n"
+}

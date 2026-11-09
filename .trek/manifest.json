@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "prompts": {
+    "2": {
+      "promptId": "#2",
+      "files": [
+        {
+          "path": "src/utils.ts",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/src/utils.ts/v1.json"
+        },
+        {
+          "path": "package.json",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/package.json/v1.json"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/CHANGELOG.md/v1.json"
+        },
+        {
+          "path": ".release-please-manifest.json",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/.release-please-manifest.json/v1.json"
+        },
+        {
+          "path": "KNOWN_ISSUES.md",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/KNOWN_ISSUES.md/v1.json"
+        },
+        {
+          "path": "webpack.config.js",
+          "from": 0,
+          "to": 1,
+          "kind": "edit",
+          "artifact": "versions/webpack.config.js/v1.json"
+        },
+        {
+          "path": "webpack.config.js",
+          "from": 1,
+          "to": 2,
+          "kind": "edit",
+          "artifact": "versions/webpack.config.js/v2.json"
+        },
+        {
+          "path": "webpack.config.js",
+          "from": 2,
+          "to": 3,
+          "kind": "edit",
+          "artifact": "versions/webpack.config.js/v3.json"
+        }
+      ],
+      "stepId": "#2:webpack.config.js"
+    },
+    "3": {
+      "promptId": "#3",
+      "files": [
+        {
+          "path": "webpack.config.js",
+          "from": 3,
+          "to": 4,
+          "kind": "edit",
+          "artifact": "versions/webpack.config.js/v4.json"
+        }
+      ],
+      "stepId": "#3:webpack.config.js"
+    }
+  }
+}

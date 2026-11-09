@@ -1,0 +1,8 @@
+sequence 119ms seed 42
+  parallel 12ms seed 42 bash
+  parallel 13ms seed 42 bash
+  parallel 8ms seed 42 read RELEASE.md
+  parallel 14ms seed 42 read TESTING.md
+  parallel 16ms seed 42 bash
+  parallel 14ms seed 42 bash
+  parallel 42ms seed 42 bash
