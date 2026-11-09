@@ -1,10 +1,12 @@
 name: CI
 
+# Local quality gates run via git pre-commit (scripts/pre-commit).
+# GitHub CI is daily only (plus manual dispatch) to save Actions minutes.
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+  schedule:
+    # 06:00 UTC daily
+    - cron: '0 6 * * *'
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -44,7 +46,7 @@ jobs:
       - name: Run VDF smoke (verify only)
         run: npm run test:smoke
 
-      # Full VDF matrix is slow — run locally or on release, not every PR
+      # Full VDF matrix is slow — run locally or on release, not every daily run
       # npm run test:comprehensive
 
   # Aggregate gate so branch protection can require a single check name

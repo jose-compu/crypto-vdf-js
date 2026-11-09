@@ -14,6 +14,10 @@ npm test
 
 Requirements: Node.js 18+.
 
+`npm install` runs `prepare`, which installs a **git pre-commit hook** (`scripts/pre-commit`). That hook is the local replacement for push/PR CI: lint, Node build, unit tests, and smoke. Re-install with `npm run hooks:install`. Skip once with `git commit --no-verify` only when you intentionally bypass the gate.
+
+GitHub **CI** (`.github/workflows/ci.yml`) runs on a **daily schedule** (and `workflow_dispatch`), not on every push/PR.
+
 ## Commands
 
 | Command | Purpose |
@@ -41,7 +45,7 @@ Prefer `createVdf({ scheme, bits })` in new examples when callers do not need a 
 ## Pull requests
 
 1. Branch from `main` (e.g. `feature/my-change`).
-2. Run `npm run lint && npm run test:unit` before opening the PR.
+2. Rely on the pre-commit hook (or run `npm run precommit`) before opening the PR — same checks as former push CI.
 3. For VDF logic changes, also run `npm run test:vdf` or the relevant manual test under `tests/manual/`.
 4. Update `README.md` / `TESTING.md` when behavior or usage changes.
 5. Add or update tests for bug fixes and new behavior.
