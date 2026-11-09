@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.8.0] - 2026-11-09
 
 ### Added
+- CLI `crypto-vdf` (`solve` / `verify` / `version`) via package bin → `dist/cli.js` (#20)
+- Property-based tests with `fast-check` (`tests/property.test.ts`, `npm run test:property`) (#25)
 - Benchmark suite (`npm run bench`) with warmup, median of N runs, optional regression caps (`BENCH_FAIL_ON_REGRESSION`) (#8)
 - Browser Web Worker client `createVdfWorker` + `src/browser-worker.ts` entry (#9)
 - Node `worker_threads` client `createNodeVdfWorker` / `verifyBatch` via `crypto-vdf/node-worker` (#10)

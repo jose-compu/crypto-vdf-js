@@ -5,6 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "browser": "dist/browser/vdf.min.js",
+  "bin": {
+    "crypto-vdf": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -64,8 +67,9 @@
     "build:node": "tsc && tsc --module esnext --outDir dist/esm && node scripts/fix-esm-imports.js && cp dist/esm/index.js dist/index.mjs",
     "build:browser": "webpack --config webpack.config.js",
     "test": "npm run test:unit && npm run test:smoke",
-    "test:unit": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts --config jest.config.js",
-    "test:unit:verbose": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts --config jest.config.js --verbose",
+    "test:unit": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts tests/property.test.ts --config jest.config.js",
+    "test:unit:verbose": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts tests/property.test.ts --config jest.config.js --verbose",
+    "test:property": "jest tests/property.test.ts --config jest.config.js --runInBand --testTimeout=120000",
     "bench": "npm run build:node && node scripts/bench.js",
     "test:workers": "npm run build:node && jest tests/workers.test.ts --config jest.config.js --runInBand --testTimeout=60000",
     "test:smoke": "npm run build:node && node tests/manual/test-ci-smoke.js",
@@ -81,7 +85,7 @@
     "test:vdf:quick": "node tests/manual/test-vdf-complete.js",
     "test:vdf:verbose": "npm run build:node && VDF_VERBOSE=1 node tests/manual/test-vdf-complete.js",
     "test:watch": "jest --watch",
-    "test:coverage": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts --coverage",
+    "test:coverage": "jest tests/utils.test.ts tests/discriminant.test.ts tests/vdf.test.ts tests/difficulty.test.ts tests/proof-codec.test.ts tests/facade.test.ts tests/workers.test.ts tests/property.test.ts --coverage",
     "test:slow": "jest --config jest.slow.config.js --runInBand",
     "lint": "eslint src/**/*.ts tests/**/*.ts --max-warnings 0",
     "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
@@ -106,7 +110,9 @@
     "progress-callback",
     "web-worker",
     "worker-threads",
-    "benchmark"
+    "benchmark",
+    "cli",
+    "fast-check"
   ],
   "author": "jose-compu",
   "license": "Apache-2.0",
@@ -126,6 +132,7 @@
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.56.0",
+    "fast-check": "^3.23.2",
     "jest": "^29.7.0",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
