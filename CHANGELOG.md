@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Optional `onProgress` callback and `AbortSignal` support in `solve()` (SolveOptions type exported) for better DX during long computations (v1.5 milestone: Packaging/DX)
+- Optional `onProgress` callback (throttled ~every 5 steps) and `AbortSignal` support in `solve()` (SolveOptions type exported) for better DX during long computations (v1.5 milestone: Packaging/DX)
 
 ### Fixed
 - Use `node:crypto` import for improved Deno/Bun compatibility (issue #19)
