@@ -46,8 +46,15 @@ jobs:
       - name: Run VDF smoke (verify only)
         run: npm run test:smoke
 
+      - name: Golden vector verify (Jest slow subset)
+        run: npm run test:slow
+
+      - name: Bench smoke (no regression gate)
+        run: BENCH_RUNS=1 BENCH_WARMUP=0 npm run bench
+
       # Full VDF matrix is slow — run locally or on release, not every daily run
       # npm run test:comprehensive
+      # 2048-bit solve is heavy; verify path covered via precomputed discriminant unit tests
 
   # Aggregate gate so branch protection can require a single check name
   ci-success:

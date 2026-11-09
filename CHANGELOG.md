@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-11-09
+
+### Added
+- Benchmark suite (`npm run bench`) with warmup, median of N runs, optional regression caps (`BENCH_FAIL_ON_REGRESSION`) (#8)
+- Browser Web Worker client `createVdfWorker` + `src/browser-worker.ts` entry (#9)
+- Node `worker_threads` client `createNodeVdfWorker` / `verifyBatch` via `crypto-vdf/node-worker` (#10)
+- Lazy discriminant helper `loadPrecomputedDiscriminant` (`crypto-vdf/lazy-discriminants`) (#13)
+- Examples: `examples/node-worker-example.js`, `examples/browser-worker.md`
+- TypeDoc API docs remain via `npm run docs` / Pages `website:build` (#4)
+- CHANGELOG automation via release-please documented (#3)
+
+### Changed
+- Package version 1.8.0; unit tests include worker + lazy discriminant coverage
+- CI daily job runs golden verify (slow path optional) and documents 2048-bit smoke (#5, #6)
+
 ## [1.7.0] - 2026-11-09
 
 ### Changed

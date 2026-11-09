@@ -49,3 +49,13 @@ export {
   getPrecomputedDiscriminant
 } from './precomputed-discriminants';
 
+export {
+  loadPrecomputedDiscriminant,
+  clearDiscriminantCache,
+} from './lazy-discriminants';
+
+export { createVdfWorker } from './vdf-worker';
+export type { CreateVdfWorkerOptions, VdfWorkerHandle } from './vdf-worker';
+
+// Node worker_threads: import from 'crypto-vdf/node-worker' (not bundled for browsers).
+

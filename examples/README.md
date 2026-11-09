@@ -7,6 +7,8 @@ Quick map of demos under `examples/`. Prefer **Wesolowski** for production or di
 | [`node-basic.ts`](./node-basic.ts) | Wesolowski | Node / TS | Smallest teaching path: discriminant → solve → verify (+ `SolveOptions`) |
 | [`node-example.js`](./node-example.js) | Pietrzak + Wesolowski | Node CJS | Side-by-side solve/verify with precomputed 256-bit discriminant |
 | [`facade-and-proof-codec.js`](./facade-and-proof-codec.js) | via `createVdf` | Node CJS | High-level facade + hex/base64/JSON proof codecs |
+| [`node-worker-example.js`](./node-worker-example.js) | Wesolowski | Node workers | `worker_threads` solve + batch verify (#10) |
+| [`browser-worker.md`](./browser-worker.md) | via `createVdfWorker` | Browser | Web Worker off-main-thread solve (#9) |
 | [`browser.html`](./browser.html) / [`browser-example.html`](./browser-example.html) | both (bundle) | Browser | UMD bundle usage |
 | [`test-readme-nodejs.js`](./test-readme-nodejs.js) | both | Node | Guards README snippets |
 | [`test-readme-browser.html`](./test-readme-browser.html) | both | Browser | README browser snippets |
