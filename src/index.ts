@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export { InvalidProof, InvalidIterations, VDF, VDFParams } from './types';
+export { InvalidProof, InvalidIterations, VDF, VDFParams, SolveOptions } from './types';
 export { PietrzakVDF, PietrzakVDFParams } from './pietrzak';
 export { WesolowskiVDF, WesolowskiVDFParams } from './wesolowski';
 export { createDiscriminant } from './discriminant';

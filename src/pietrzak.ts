@@ -14,7 +14,7 @@
 
 import { ClassGroup, iterateSquarings } from './classgroup';
 import { createDiscriminant } from './discriminant';
-import { InvalidProof, InvalidIterations, VDF } from './types';
+import { InvalidProof, InvalidIterations, VDF, SolveOptions } from './types';
 import { sha256, bytesToBigInt } from './utils';
 
 /**
@@ -309,7 +309,7 @@ export class PietrzakVDF implements VDF {
     }
   }
 
-  async solve(challenge: Uint8Array, difficulty: number, discriminant?: bigint): Promise<Uint8Array> {
+  async solve(challenge: Uint8Array, difficulty: number, discriminant?: bigint, options?: SolveOptions): Promise<Uint8Array> {
     this.checkDifficulty(difficulty);
     
     const disc = discriminant ?? createDiscriminant(challenge, this.intSizeBits);
@@ -317,7 +317,7 @@ export class PietrzakVDF implements VDF {
     
     const delta = 8;
     const powersToCalculate = cacheIndicesForCount(difficulty);
-    const powers = iterateSquarings(x, powersToCalculate);
+    const powers = iterateSquarings(x, powersToCalculate, options?.onProgress, options?.signal);
     
     const proof = generateProof(x, difficulty, delta, powers, this.intSizeBits);
     

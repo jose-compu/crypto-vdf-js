@@ -446,19 +446,25 @@ export class ClassGroup {
  */
 export function iterateSquarings(
   x: ClassGroup,
-  powersToCalculate: number[]
+  powersToCalculate: number[],
+  onProgress?: (completed: number, total: number) => void,
+  signal?: AbortSignal
 ): Map<number, ClassGroup> {
   const powersCalculated = new Map<number, ClassGroup>();
   const sorted = [...powersToCalculate].sort((a, b) => a - b);
+  const total = sorted.length;
   
   const current = x.clone();
   let previousPower = 0;
   
-  for (const currentPower of sorted) {
+  for (let i = 0; i < sorted.length; i++) {
+    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
+    const currentPower = sorted[i];
     const diff = currentPower - previousPower;
     current.repeatedSquare(diff);
     powersCalculated.set(currentPower, current.clone());
     previousPower = currentPower;
+    if (onProgress && (i === 0 || i === sorted.length - 1 || (i + 1) % Math.max(1, Math.floor(total / 5)) === 0)) onProgress(i + 1, total); // throttled for DX
   }
   
   return powersCalculated;

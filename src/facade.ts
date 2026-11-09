@@ -15,7 +15,7 @@
 import { PietrzakVDFParams } from './pietrzak';
 import { WesolowskiVDFParams } from './wesolowski';
 import { getPrecomputedDiscriminant } from './precomputed-discriminants';
-import type { VDF } from './types';
+import type { VDF, SolveOptions } from './types';
 
 /** Supported schemes for {@link createVdf}. */
 export type VdfScheme = 'wesolowski' | 'pietrzak';
@@ -46,7 +46,11 @@ export interface VdfHandle {
   /** Underlying VDF instance (Pietrzak or Wesolowski). */
   readonly vdf: VDF;
   checkDifficulty(difficulty: number): void;
-  solve(challenge: Uint8Array, difficulty: number): Promise<Uint8Array>;
+  /**
+   * Solve using the handle's precomputed discriminant.
+   * Supports SolveOptions for onProgress / AbortSignal.
+   */
+  solve(challenge: Uint8Array, difficulty: number, options?: SolveOptions): Promise<Uint8Array>;
   verify(challenge: Uint8Array, difficulty: number, proof: Uint8Array): void;
 }
 
@@ -93,8 +97,8 @@ export function createVdf(options: CreateVdfOptions = {}): VdfHandle {
     checkDifficulty(difficulty: number): void {
       vdf.checkDifficulty(difficulty);
     },
-    solve(challenge: Uint8Array, difficulty: number): Promise<Uint8Array> {
-      return vdf.solve(challenge, difficulty, discriminant);
+    solve(challenge: Uint8Array, difficulty: number, options?: SolveOptions): Promise<Uint8Array> {
+      return vdf.solve(challenge, difficulty, discriminant, options);
     },
     verify(challenge: Uint8Array, difficulty: number, proof: Uint8Array): void {
       vdf.verify(challenge, difficulty, proof, discriminant);

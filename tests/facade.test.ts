@@ -38,6 +38,22 @@ describe('createVdf facade', () => {
     expect(() => vdf.verify(challenge, 66, proof)).not.toThrow();
   });
 
+  test('solve supports onProgress and AbortSignal (v1.5)', async () => {
+    const vdf = createVdf({ scheme: 'wesolowski', bits: 256 });
+    const progress: number[] = [];
+    const ac = new AbortController();
+    const proof = await vdf.solve(challenge, 66, { onProgress: (c,_t)=>progress.push(c), signal: ac.signal });
+    expect(proof.length).toBeGreaterThan(0);
+    expect(progress.length).toBeGreaterThan(0);
+  });
+
+  test('solve rejects on abort signal (v1.5)', async () => {
+    const vdf = createVdf({ scheme: 'wesolowski', bits: 256 });
+    const ac = new AbortController();
+    ac.abort();
+    await expect(vdf.solve(challenge, 200, { signal: ac.signal })).rejects.toThrow('Aborted');
+  });
+
   test('pietrzak solve + verify', async () => {
     const vdf = createVdf({ scheme: 'pietrzak', bits: 256 });
     const proof = await vdf.solve(challenge, 66);
