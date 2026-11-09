@@ -68,3 +68,6 @@ temp/
 # Debug files
 debug/
 
+
+# Agent harness local state
+.trek/

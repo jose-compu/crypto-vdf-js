@@ -14,8 +14,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      'node:crypto$': require.resolve('crypto-browserify')
+    },
     fallback: {
       crypto: require.resolve('crypto-browserify'),
+      'node:crypto': require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       buffer: require.resolve('buffer')
     }
@@ -24,7 +28,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
       process: 'process/browser'
-    })
+    }),
+    new webpack.NormalModuleReplacementPlugin(/node:crypto/, require.resolve('crypto-browserify'))
   ],
   module: {
     rules: [

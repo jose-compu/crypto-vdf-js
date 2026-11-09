@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 
 /**
  * Convert bytes to BigInt using two's complement for negative numbers
