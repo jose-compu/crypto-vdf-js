@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/jose-compu/crypto-vdf-js/compare/crypto-vdf-v1.5.0...crypto-vdf-v1.6.0) (2026-11-09)
+
+
+### Features
+
+* 1.8 CLI and property tests ([#20](https://github.com/jose-compu/crypto-vdf-js/issues/20), [#25](https://github.com/jose-compu/crypto-vdf-js/issues/25)) ([dcde7f6](https://github.com/jose-compu/crypto-vdf-js/commit/dcde7f6319e5c6b50856c85d98e79be7b08ac061))
+* CLI solve/verify and fast-check property tests for 1.8 ([3519ceb](https://github.com/jose-compu/crypto-vdf-js/commit/3519ceb2d97fd0fd254e8cd80c725507629dcd52))
+* finish 1.8 golden 2048 CI, ClassGroup reduce hot path ([89db755](https://github.com/jose-compu/crypto-vdf-js/commit/89db7550fa5fa076aaac29472e20fedfa1456bc2))
+* milestone 1.8 workers, bench, lazy discriminants ([c1c83eb](https://github.com/jose-compu/crypto-vdf-js/commit/c1c83eb64bca0f581a788b478379bb01d457f6a6))
+
 ## [1.8.0] - 2026-11-09
 
 ### Added
