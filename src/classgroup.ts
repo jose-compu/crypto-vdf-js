@@ -222,7 +222,8 @@ export class ClassGroup {
 
       this.normalize(debug);
 
-      if (iterations > 100) {
+      // Large discriminants (e.g. 4096-bit) need more reduction steps.
+      if (iterations > 10_000) {
         if (debug) console.log('  WARNING: Too many iterations in reduce');
         break;
       }
@@ -395,6 +396,9 @@ export class ClassGroup {
    * targetSize is in bytes (half the total buffer size for a or b)
    */
   serialize(targetSize?: number): Uint8Array {
+    // Ensure reduced form so |a|,|b| fit the discriminant-sized buffer (esp. 4096-bit).
+    this.reduce();
+
     // If no target size, calculate from discriminant
     let size: number;
     if (targetSize !== undefined) {

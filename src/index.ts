@@ -46,6 +46,7 @@ export {
   DISCRIMINANT_512,
   DISCRIMINANT_1024,
   DISCRIMINANT_2048,
+  DISCRIMINANT_4096,
   getPrecomputedDiscriminant
 } from './precomputed-discriminants';
 

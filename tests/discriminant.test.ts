@@ -18,6 +18,10 @@ import {
   DISCRIMINANT_256,
   DISCRIMINANT_256_BB
 } from './test-discriminants';
+import {
+  DISCRIMINANT_4096,
+  getPrecomputedDiscriminant,
+} from '../src/precomputed-discriminants';
 
 describe('Discriminant', () => {
   test('should have valid 40-bit discriminant constant', () => {
@@ -66,6 +70,13 @@ describe('Discriminant', () => {
       const check = 1n * 1n - 4n * 2n * c;
       expect(check).toBe(d);
     }
+  });
+
+  test('should have valid 4096-bit precomputed discriminant', () => {
+    expect(DISCRIMINANT_4096 < 0n).toBe(true);
+    expect((-DISCRIMINANT_4096) % 8n).toBe(7n);
+    expect(bitLength(-DISCRIMINANT_4096)).toBe(4096);
+    expect(getPrecomputedDiscriminant(4096)).toBe(DISCRIMINANT_4096);
   });
 });
 

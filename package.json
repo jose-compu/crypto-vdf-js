@@ -1,6 +1,6 @@
 {
   "name": "crypto-vdf",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Verifiable Delay Functions (VDF) library for Node.js and browsers - Pietrzak and Wesolowski implementations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -81,6 +81,7 @@
     "website:build": "node scripts/build-website.js",
     "website:preview": "npm run website:build && npx --yes serve site -p 4000",
     "fixtures:generate": "npm run build:node && node scripts/generate-fixtures.js",
+    "generate:4096": "node scripts/generate-precomputed-4096.js",
     "test:vdf": "npm run build:node && node tests/manual/test-vdf-complete.js",
     "test:vdf:quick": "node tests/manual/test-vdf-complete.js",
     "test:vdf:verbose": "npm run build:node && VDF_VERBOSE=1 node tests/manual/test-vdf-complete.js",

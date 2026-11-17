@@ -21,7 +21,7 @@ import type { VDF, SolveOptions } from './types';
 export type VdfScheme = 'wesolowski' | 'pietrzak';
 
 /** Supported discriminant bit lengths with precomputed constants. */
-export type VdfBitSize = 256 | 512 | 1024 | 2048;
+export type VdfBitSize = 256 | 512 | 1024 | 2048 | 4096;
 
 export interface CreateVdfOptions {
   /** VDF construction. Default: `'wesolowski'`. */
@@ -75,9 +75,9 @@ export function createVdf(options: CreateVdfOptions = {}): VdfHandle {
   if (scheme !== 'wesolowski' && scheme !== 'pietrzak') {
     throw new RangeError(`Unsupported scheme "${scheme as string}". Use "wesolowski" or "pietrzak".`);
   }
-  if (![256, 512, 1024, 2048].includes(bits)) {
+  if (![256, 512, 1024, 2048, 4096].includes(bits)) {
     throw new RangeError(
-      `Unsupported bit size ${bits}. Use 256, 512, 1024, or 2048.`
+      `Unsupported bit size ${bits}. Use 256, 512, 1024, 2048, or 4096.`
     );
   }
 
