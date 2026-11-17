@@ -40,7 +40,7 @@ export type { ProofFormat, JsonProofEnvelope } from './proof-codec';
 export { createVdf, createVDF } from './facade';
 export type { CreateVdfOptions, VdfBitSize, VdfHandle, VdfScheme } from './facade';
 
-// Export precomputed discriminants (generated using Rust GMP for maximum performance)
+// Export precomputed discriminants (see README for generation / regeneration)
 export {
   DISCRIMINANT_256,
   DISCRIMINANT_512,

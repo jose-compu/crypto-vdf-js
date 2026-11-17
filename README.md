@@ -774,7 +774,7 @@ limitations under the License.
 
 ## Acknowledgments
 
-This TypeScript implementation references the algorithms and approaches from the [Rust VDF implementation](https://github.com/poanetwork/vdf) originally developed by **Chia Network Inc** and **POA Networks Ltd**. While this is an independent implementation in TypeScript with significant optimizations (including Rust GMP-generated precomputed discriminants), we acknowledge their pioneering work in making VDFs practical and accessible.
+This TypeScript implementation references the algorithms and approaches from the [Rust VDF implementation](https://github.com/poanetwork/vdf) originally developed by **Chia Network Inc** and **POA Networks Ltd**. While this is an independent implementation in TypeScript with significant optimizations (including precomputed discriminants), we acknowledge their pioneering work in making VDFs practical and accessible.
 
 Special thanks to:
 - **Chia Network Inc** - For their research and development of practical VDF implementations

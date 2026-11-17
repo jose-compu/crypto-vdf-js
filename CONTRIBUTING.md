@@ -30,6 +30,7 @@ GitHub **CI** (`.github/workflows/ci.yml`) runs on a **daily schedule** (and `wo
 | `npm run lint` | ESLint (zero warnings) |
 | `npm run docs` | Generate API reference (TypeDoc) |
 | `npm run fixtures:generate` | Regenerate golden test vectors |
+| `npm run generate:4096` | Regenerate a 4096-bit discriminant (OpenSSL 3; paste into `src/precomputed-discriminants.ts`) |
 
 ## Which VDF should I use?
 
