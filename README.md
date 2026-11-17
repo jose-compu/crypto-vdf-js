@@ -25,7 +25,7 @@ This implementation provides two VDF constructions:
 - Pure TypeScript implementation with BigInt support
 - Works in Node.js 18+ and modern browsers
 - Implements both Pietrzak and Wesolowski VDF schemes
-- **Precomputed discriminants** (256, 512, 1024, 2048 bits) generated using Rust GMP for optimal performance
+- **Precomputed discriminants** (256, 512, 1024, 2048, 4096 bits); see README for generation / regeneration
 - Zero runtime dependencies for Node.js
 - Browser-compatible bundle with Webpack
 - Comprehensive test suite with 64+ tests
@@ -46,6 +46,9 @@ This implementation provides two VDF constructions:
 ```bash
 npm install crypto-vdf
 ```
+
+Published packages include [npm provenance](https://docs.npmjs.com/generating-provenance-statements) attestations when released via GitHub Actions.
+
 
 Current release line: **1.8.x**. See [CHANGELOG.md](CHANGELOG.md).
 
@@ -178,7 +181,7 @@ console.log('✓ Proof verified!');
 
 ## Precomputed Discriminants (Recommended)
 
-This library includes **precomputed discriminants** (256, 512, 1024, 2048 bits) generated using Rust GMP for optimal performance. **Always use precomputed discriminants** as generating them in pure JavaScript is extremely slow.
+This library ships **precomputed discriminants** at 256, 512, 1024, 2048, and 4096 bits. **Always use them** — generating a fresh discriminant in pure JavaScript is extremely slow.
 
 ```javascript
 // Node.js / ES Modules
@@ -205,10 +208,50 @@ await vdf512.solve(challenge, 100, disc);
 ```
 
 **Why use precomputed discriminants?**
-- **Fast**: Generated using Rust GMP (1000x faster than pure JS)
+- **Fast**: Avoids slow prime search in pure JS at solve time
 - **Verified**: All satisfy required mathematical properties
 - **Deterministic**: Same values every time, production-ready
 - **Recommended**: For all production use cases
+
+### How they were generated
+
+Every shipped `DISCRIMINANT_*` is a negative fundamental discriminant \(D = -p\) where \(p\) is a probable prime, \(|D|\) has the stated bit length, and \(p \equiv 7 \pmod 8\) (so \(D \equiv 1 \pmod 8\) and \(D \equiv 1 \pmod 4\)).
+
+| Size | How the constant was produced |
+|------|-------------------------------|
+| 256–2048 | Offline with a Rust + GMP prime search (same constraints as [poanetwork/vdf](https://github.com/poanetwork/vdf)); values are fixed in `src/precomputed-discriminants.ts` |
+| 4096 | Offline with `scripts/generate-precomputed-4096.c` (OpenSSL 3 `BN_rand` + Miller–Rabin, 64 checks), wrapped by `npm run generate:4096` |
+
+The 4096-bit value is **not** deterministic across runs: each regeneration draws a new random prime. Only replace `DISCRIMINANT_4096` if you intentionally want a new constant (and expect all callers of the old value to update).
+
+### Regenerate `DISCRIMINANT_4096`
+
+Requirements: a C compiler and **OpenSSL 3** development headers (`libcrypto`). On macOS: `brew install openssl@3`.
+
+```bash
+# Preferred: build C helper, print decimal D on stdout (~tens of seconds)
+npm run generate:4096
+
+# Or compile manually (paths vary by install prefix)
+cc -O3 -o /tmp/gen4096 scripts/generate-precomputed-4096.c \
+  -I"$(brew --prefix openssl@3)/include" \
+  -L"$(brew --prefix openssl@3)/lib" -lcrypto
+/tmp/gen4096
+```
+
+Then paste the printed negative decimal into `src/precomputed-discriminants.ts` as:
+
+```ts
+export const DISCRIMINANT_4096 = -<decimal>n;
+```
+
+Sanity-check after editing:
+
+```bash
+npm run lint && npm run test:unit && npm run test:smoke
+```
+
+If OpenSSL headers are missing, `npm run generate:4096` falls back to pure-JS `createDiscriminant` (very slow; not recommended for 4096-bit).
 
 ### Custom Discriminants (Not Recommended)
 
@@ -494,12 +537,13 @@ Built-in calibration (Node.js, precomputed discriminant, typical modern CPU):
 | 512       | 5 000                     |
 | 1024      | 1 800                     |
 | 2048      | 600                       |
+| 4096      | ~150 (approximate)        |
 
 Read the table with `getCalibratedIterationsPerSecond(bits)`. Browsers and low-power devices are often several times slower — always re-calibrate for production delay targets.
 
 ### FAQ: discriminant sizes and `estimateDifficulty`
 
-**Which precomputed sizes exist?** `DISCRIMINANT_256`, `_512`, `_1024`, and `_2048` (also `getPrecomputedDiscriminant(bits)`). Use **256/512** for tests and demos, **≥1024** for production-ish security, **2048** when you want a larger class-group security margin.
+**Which precomputed sizes exist?** `DISCRIMINANT_256`, `_512`, `_1024`, `_2048`, and `_4096` (also `getPrecomputedDiscriminant(bits)`). Use **256/512** for tests and demos, **≥1024** for production-ish security, **2048/4096** for a larger class-group security margin.
 
 **Do I always pass a discriminant?** With `createVdf({ scheme, bits })`, no — the facade selects a precomputed discriminant. With `PietrzakVDFParams` / `WesolowskiVDFParams`, pass `DISCRIMINANT_*` (or another valid discriminant) on every `solve` / `verify`. Omitting it falls back to slow pure-JS generation from the challenge.
 
@@ -730,7 +774,7 @@ limitations under the License.
 
 ## Acknowledgments
 
-This TypeScript implementation references the algorithms and approaches from the [Rust VDF implementation](https://github.com/poanetwork/vdf) originally developed by **Chia Network Inc** and **POA Networks Ltd**. While this is an independent implementation in TypeScript with significant optimizations (including Rust GMP-generated precomputed discriminants), we acknowledge their pioneering work in making VDFs practical and accessible.
+This TypeScript implementation references the algorithms and approaches from the [Rust VDF implementation](https://github.com/poanetwork/vdf) originally developed by **Chia Network Inc** and **POA Networks Ltd**. While this is an independent implementation in TypeScript with significant optimizations (including precomputed discriminants), we acknowledge their pioneering work in making VDFs practical and accessible.
 
 Special thanks to:
 - **Chia Network Inc** - For their research and development of practical VDF implementations

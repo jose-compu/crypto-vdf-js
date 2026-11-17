@@ -41,7 +41,7 @@
       <div class="container hero-grid">
         <div>
           <span class="section-label" data-i18n="hero.label">Proof-of-time cryptography</span>
-          <p class="version-badge">v1.7.0</p>
+          <p class="version-badge">v1.9.0</p>
           <h1 data-i18n-html="hero.title">Time you can prove.<br />Verification anyone can run.</h1>
           <p class="lead" data-i18n-html="hero.lead">
             A <strong>Verifiable Delay Function</strong> forces sequential computation to produce an output—then proves it in milliseconds. Built for Node.js and browsers in TypeScript.
@@ -413,12 +413,24 @@
             <p data-i18n="lib.c3.text">Discriminants from Rust GMP—do not generate in pure JS for production workloads.</p>
           </article>
           <article class="card">
-            <h3>createVdf (v1.3.0)</h3>
+            <h3>createVdf + codecs</h3>
             <p>High-level facade with auto precomputed discriminant. <code>encodeProof</code> / <code>decodeProof</code> for hex, base64, and JSON.</p>
           </article>
           <article class="card">
-            <h3>estimateDifficulty (v1.2.0)</h3>
+            <h3>estimateDifficulty</h3>
             <p>Map a target wall-clock delay to an iteration count for the chosen scheme.</p>
+          </article>
+          <article class="card">
+            <h3>CLI + workers</h3>
+            <p><code>npx crypto-vdf solve|verify</code>, browser <code>createVdfWorker</code>, Node <code>crypto-vdf/node-worker</code>.</p>
+          </article>
+          <article class="card">
+            <h3>AbortSignal / onProgress</h3>
+            <p>Cancelable long <code>solve()</code> with throttled progress callbacks.</p>
+          </article>
+          <article class="card">
+            <h3>DISCRIMINANT_4096</h3>
+            <p>4096-bit precomputed discriminant for high-security deployments (<code>bits: 4096</code>).</p>
           </article>
         </div>
         <div class="note" data-i18n-html="lib.note">
@@ -452,7 +464,7 @@ const wire = encodeProof(proof, 'hex');</code></pre>
 
   <footer class="site-footer">
     <div class="container">
-      <p>crypto-vdf v1.7.0 · Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
+      <p>crypto-vdf v1.9.0 · Apache-2.0 · <a href="https://github.com/jose-compu/crypto-vdf-js">crypto-vdf-js</a> · <a href="https://eprint.iacr.org/2018/623.pdf" target="_blank" rel="noopener">Wesolowski ’18</a> · <a href="https://eprint.iacr.org/2018/627.pdf" target="_blank" rel="noopener">Pietrzak ’18</a></p>
     </div>
   </footer>
 

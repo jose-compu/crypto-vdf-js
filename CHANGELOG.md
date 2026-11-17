@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-11-17
+
+### Added
+- `DISCRIMINANT_4096` precomputed discriminant + `createVdf({ bits: 4096 })` / CLI `--bits 4096` (#23)
+- C/OpenSSL generator `scripts/generate-precomputed-4096.c` (`npm run generate:4096`) for regenerating 4096-bit D
+- npm publish provenance (`--provenance`, OIDC `id-token: write`) and production `npm audit --omit=dev --audit-level=high` in publish + CI (#27)
+- Promo site refresh for 1.9 APIs (CLI, workers, AbortSignal/onProgress, 4096-bit)
+
+### Changed
+- ClassGroup `reduce` iteration cap raised for large discriminants; `serialize` reduces before encoding
+- Package version **1.9.0**
+
 ## [1.8.0] - 2026-11-09
 
 ### Added

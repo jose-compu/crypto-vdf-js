@@ -25,13 +25,15 @@ export const CALIBRATED_ITERATIONS_PER_SECOND: Readonly<Record<number, number>> 
   512: 5_000,
   1024: 1_800,
   2048: 600,
+  /** Approximate; 4096-bit class-group ops are much heavier — measure on target HW. */
+  4096: 150,
 };
 
 /** Supported VDF schemes for difficulty shaping. */
 export type DifficultyScheme = 'wesolowski' | 'pietrzak';
 
 export interface EstimateDifficultyOptions {
-  /** Discriminant bit length (256, 512, 1024, or 2048). */
+  /** Discriminant bit length (256, 512, 1024, 2048, or 4096). */
   bits: number;
   /** Desired wall-clock solve delay in seconds (must be > 0). */
   targetSeconds: number;
@@ -48,7 +50,7 @@ export interface EstimateDifficultyOptions {
 }
 
 export interface EstimateSolveSecondsOptions {
-  /** Discriminant bit length (256, 512, 1024, or 2048). */
+  /** Discriminant bit length (256, 512, 1024, 2048, or 4096). */
   bits: number;
   /** Difficulty (iteration count). */
   difficulty: number;
@@ -65,7 +67,7 @@ export function getCalibratedIterationsPerSecond(bits: number): number {
   const ips = CALIBRATED_ITERATIONS_PER_SECOND[bits];
   if (ips == null) {
     throw new RangeError(
-      `Unsupported bit length ${bits}. Use 256, 512, 1024, or 2048.`
+      `Unsupported bit length ${bits}. Use 256, 512, 1024, 2048, or 4096.`
     );
   }
   return ips;

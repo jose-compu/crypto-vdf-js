@@ -8,7 +8,7 @@ export type WorkerRequest =
       id: number;
       type: 'solve';
       scheme: 'wesolowski' | 'pietrzak';
-      bits: 256 | 512 | 1024 | 2048;
+      bits: 256 | 512 | 1024 | 2048 | 4096;
       challengeHex: string;
       difficulty: number;
       discriminant?: string;
@@ -17,7 +17,7 @@ export type WorkerRequest =
       id: number;
       type: 'verify';
       scheme: 'wesolowski' | 'pietrzak';
-      bits: 256 | 512 | 1024 | 2048;
+      bits: 256 | 512 | 1024 | 2048 | 4096;
       challengeHex: string;
       difficulty: number;
       proofHex: string;

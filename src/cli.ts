@@ -23,7 +23,7 @@
 import { createVdf, type VdfBitSize, type VdfScheme } from './facade';
 import { proofToHex, hexToProof } from './proof-codec';
 
-const VERSION = '1.8.0';
+const VERSION = '1.9.0';
 
 function usage(exitCode = 0): never {
   const msg = `crypto-vdf ${VERSION}
@@ -36,7 +36,7 @@ Usage:
 
 Options:
   --scheme <wesolowski|pietrzak>   default: wesolowski
-  --bits <256|512|1024|2048>       default: 256
+  --bits <256|512|1024|2048|4096>  default: 256
   --format <hex|base64>            proof output/input for solve (default hex)
   --json                           print machine-readable JSON on success
 
@@ -92,8 +92,8 @@ function parseChallenge(hex: string): Uint8Array {
 
 function parseBits(raw: string | undefined): VdfBitSize {
   const n = Number(raw ?? '256');
-  if (![256, 512, 1024, 2048].includes(n)) {
-    throw new Error('--bits must be 256, 512, 1024, or 2048');
+  if (![256, 512, 1024, 2048, 4096].includes(n)) {
+    throw new Error('--bits must be 256, 512, 1024, 2048, or 4096');
   }
   return n as VdfBitSize;
 }

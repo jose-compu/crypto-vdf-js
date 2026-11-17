@@ -16,7 +16,7 @@ Requirements: Node.js 18+.
 
 `npm install` runs `prepare`, which installs a **git pre-commit hook** (`scripts/pre-commit`). That hook is the local replacement for push/PR CI: lint, Node build, unit tests, and smoke. Re-install with `npm run hooks:install`. Skip once with `git commit --no-verify` only when you intentionally bypass the gate.
 
-GitHub **CI** (`.github/workflows/ci.yml`) runs on a **daily schedule** (and `workflow_dispatch`), not on every push/PR.
+GitHub **CI** (`.github/workflows/ci.yml`) runs on every **pull request**, on pushes to `main`, on a daily schedule, and via `workflow_dispatch`.
 
 ## Commands
 
@@ -30,6 +30,7 @@ GitHub **CI** (`.github/workflows/ci.yml`) runs on a **daily schedule** (and `wo
 | `npm run lint` | ESLint (zero warnings) |
 | `npm run docs` | Generate API reference (TypeDoc) |
 | `npm run fixtures:generate` | Regenerate golden test vectors |
+| `npm run generate:4096` | Regenerate a 4096-bit discriminant (OpenSSL 3; paste into `src/precomputed-discriminants.ts`) |
 
 ## Which VDF should I use?
 

@@ -12,7 +12,9 @@ Cross-check this TypeScript port against [poanetwork/vdf](https://github.com/poa
 | `tests/golden-vectors.test.ts` | Verify-only Jest (tamper rejection) |
 | `npm run test:golden` | Solve + re-verify determinism |
 
-Discriminants `DISCRIMINANT_*` were generated with Rust GMP and match the mathematical constraints used by the reference (`≡ 1 mod 4`, `≡ 1 mod 8`, negative).
+Discriminants `DISCRIMINANT_*` (256–2048) were generated with Rust GMP and match the mathematical constraints used by the reference (`≡ 1 mod 4`, `≡ 1 mod 8`, negative).
+
+`DISCRIMINANT_4096` was generated with `scripts/generate-precomputed-4096.c` (OpenSSL 3 BN Miller–Rabin, 64 checks; `npm run generate:4096`). Same constraints: negative, `|D| ≡ 7 (mod 8)`. Regeneration draws a **new** random prime — see README “Regenerate DISCRIMINANT_4096”.
 
 ## Vector format
 

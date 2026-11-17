@@ -1,15 +1,18 @@
 name: CI
 
-# Local quality gates run via git pre-commit (scripts/pre-commit).
-# GitHub CI is daily only (plus manual dispatch) to save Actions minutes.
+# Runs on every PR and on pushes to main; daily schedule + manual dispatch kept.
+# Local quality gates also run via git pre-commit (scripts/pre-commit).
 on:
+  pull_request:
+  push:
+    branches: [main]
   schedule:
     # 06:00 UTC daily
     - cron: '0 6 * * *'
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,6 +36,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Supply-chain audit
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Run linter
         run: npm run lint
