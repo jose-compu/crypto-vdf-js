@@ -5,6 +5,37 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0](https://github.com/jose-compu/crypto-vdf-js/compare/crypto-vdf-v1.9.0...crypto-vdf-v1.10.0) (2026-11-17)
+
+
+### Features
+
+* 1.8 CLI and property tests ([#20](https://github.com/jose-compu/crypto-vdf-js/issues/20), [#25](https://github.com/jose-compu/crypto-vdf-js/issues/25)) ([dcde7f6](https://github.com/jose-compu/crypto-vdf-js/commit/dcde7f6319e5c6b50856c85d98e79be7b08ac061))
+* 1.9.0 provenance, DISCRIMINANT_4096, website refresh ([5a66374](https://github.com/jose-compu/crypto-vdf-js/commit/5a66374179a168a40529ad31896402720387a792))
+* Add precomputed discriminants and fix serialization ([50aa189](https://github.com/jose-compu/crypto-vdf-js/commit/50aa189fe7af5d480bfc3d3646d6afe95bc45f4f))
+* Add README example verification tests ([eedef81](https://github.com/jose-compu/crypto-vdf-js/commit/eedef813daf4146fe33f491796e5eea57d9c7aea))
+* CLI solve/verify and fast-check property tests for 1.8 ([3519ceb](https://github.com/jose-compu/crypto-vdf-js/commit/3519ceb2d97fd0fd254e8cd80c725507629dcd52))
+* complete v1.5 packaging, docs, and Pietrzak difficulty guard ([4655eca](https://github.com/jose-compu/crypto-vdf-js/commit/4655eca35bd60ec658ed636a4dfc0f5621f822fb))
+* crypto-vdf 1.5.0 — packaging, DX, docs ([e5bf6d8](https://github.com/jose-compu/crypto-vdf-js/commit/e5bf6d85264f94d45d5f7278206a93aee4b896db))
+* crypto-vdf 1.9.0 provenance + DISCRIMINANT_4096 ([fdb36fc](https://github.com/jose-compu/crypto-vdf-js/commit/fdb36fcfdfc886a0097fb96ddea339b06fffe00b))
+* estimateDifficulty for target delay (v1.2.0) ([#16](https://github.com/jose-compu/crypto-vdf-js/issues/16)) ([1e37f0c](https://github.com/jose-compu/crypto-vdf-js/commit/1e37f0c20d76727e917a7e3b914f7785db18a0e8))
+* finish 1.8 golden 2048 CI, ClassGroup reduce hot path ([89db755](https://github.com/jose-compu/crypto-vdf-js/commit/89db7550fa5fa076aaac29472e20fedfa1456bc2))
+* milestone 1.8 workers, bench, lazy discriminants ([c1c83eb](https://github.com/jose-compu/crypto-vdf-js/commit/c1c83eb64bca0f581a788b478379bb01d457f6a6))
+* v1.5.0 Packaging/DX (SolveOptions, progress callback, AbortSignal) ([26e346d](https://github.com/jose-compu/crypto-vdf-js/commit/26e346d3b53cf6cef8e3b8e1f237127a2e8f577c))
+* v1.5.0 Packaging/DX (SolveOptions, progress callback, AbortSignal) ([#38](https://github.com/jose-compu/crypto-vdf-js/issues/38)) ([5b0d429](https://github.com/jose-compu/crypto-vdf-js/commit/5b0d4293d0a80894ad1935cf8194fad27a3915ec))
+
+
+### Bug Fixes
+
+* node:crypto import for Deno/Bun compat ([#36](https://github.com/jose-compu/crypto-vdf-js/issues/36)) ([c33223c](https://github.com/jose-compu/crypto-vdf-js/commit/c33223c162e3a516408c2a8d58cdf467790dd8ab))
+* Resolve critical VDF bugs and add comprehensive tests ([7bd3789](https://github.com/jose-compu/crypto-vdf-js/commit/7bd378985e837042e94b162172b9443d68344285))
+* Resolve linter errors for npm publish ([0a40c6a](https://github.com/jose-compu/crypto-vdf-js/commit/0a40c6ab7289ff275840a33118aaf743501c51cf))
+
+
+### Performance Improvements
+
+* Skip browser build in tests for faster execution ([8af5155](https://github.com/jose-compu/crypto-vdf-js/commit/8af5155e86f6cdf79825b048faf9aaa408ac68a1))
+
 ## [1.9.0] - 2026-11-17
 
 ### Added
