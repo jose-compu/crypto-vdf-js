@@ -72,5 +72,8 @@ debug/
 # Agent harness local state
 .trek/
 
+# Local agent instructions (do not publish)
+AGENTS.md
+
 # Local bench output
 bench-results.json
